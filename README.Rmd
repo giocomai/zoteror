@@ -19,3 +19,10 @@ This package aims to introduce basic functionalities to access the Zotero API. I
 It may be integrated with a RZotero package if it is actually developed by someone else, or might in time grow and increase its functionalities.
 
 It is under active development, but is not currently functioning.
+
+Example:
+
+```
+credentials <- AuthZot()
+test <- ReadZotItem()
+```

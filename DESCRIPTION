@@ -9,6 +9,8 @@ Depends:
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    ROAuth
 Imports:
     tidyverse
 RoxygenNote: 5.0.1
