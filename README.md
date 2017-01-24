@@ -1,18 +1,7 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-# ZoteroR - Access the Zotero API in R
+ZoteroR - Access the Zotero API in R
+====================================
 
 This package aims to introduce basic functionalities to access the Zotero API. Its main goal at this stage is to have enough function to allow facilitate resizing the storage space used, by ordering items by attachment size, and by allowing to add a tag if certain criteria are met.
 
