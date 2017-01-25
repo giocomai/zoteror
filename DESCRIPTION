@@ -13,4 +13,5 @@ Depends:
     tidyverse
 Imports:
     ROAuth
+    httr
 RoxygenNote: 5.0.1
