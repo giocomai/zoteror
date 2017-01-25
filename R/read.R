@@ -3,7 +3,7 @@
 #' Read details of a Zotero item
 #'
 #'
-#' @param user UserId
+#' @param user Zotero userId
 #' @return
 #' @export
 #' @examples
@@ -11,6 +11,11 @@
 #' item <- ReadZotItem()
 
 ReadZotItem <- function(user, id, credentials) {
-    jsonlite::fromJSON(txt = paste0("https://api.zotero.org/users/", user, "/items/", id, "?key=", credentials$oauthSecret))
+    if (class(credentials)[1]=="OAuth") {
+        secret <- credentials$oauthSecret
+    } else {
+        secret <- credentials
+    }
+    jsonlite::fromJSON(txt = paste0("https://api.zotero.org/users/", user, "/items/", id, "?key=", secret))
 }
 

@@ -7,7 +7,7 @@
 ReadZotItem(user, id, credentials)
 }
 \arguments{
-\item{user}{UserId}
+\item{user}{Zotero userId}
 }
 \description{
 Read details of a Zotero item
