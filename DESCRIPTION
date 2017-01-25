@@ -12,7 +12,8 @@ LazyData: true
 Depends: 
     tidyverse
 Imports:
-    ROAuth
-    httr
-    random
+    ROAuth,
+    httr,
+    random,
+    jsonlite
 RoxygenNote: 5.0.1
