@@ -10,7 +10,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    ROAuth
-Imports:
     tidyverse
+Imports:
+    ROAuth
 RoxygenNote: 5.0.1
