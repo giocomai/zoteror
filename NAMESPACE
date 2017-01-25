@@ -2,3 +2,4 @@
 
 export(AuthZot)
 export(ReadZotItem)
+export(ZotSize)
