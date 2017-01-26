@@ -7,7 +7,7 @@
 #' @param user Zotero userId
 #' @param collectionName Name of the collection to be added
 #' @param credentials Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
-#' @return
+#' @return The key of the newly created collection (or of the pre-existing collection, if already one with the same name exists) as a character vector
 #' @export
 #' @examples
 #'
@@ -19,6 +19,14 @@ CreateZotCollection <- function(user, collectionName, credentials) {
     } else {
         secret <- credentials
     }
-    response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/collections?key=", secret), config = httr::add_headers("Content-Type : application/json", paste0("Zotero-Write-Token: ", paste0(as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE)), as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE))))), body = jsonlite::toJSON(x = tribble(~name, collectionName)))
-    response
+    # Check if collection by the same name exists
+    collections <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/users/", user, "/collections/top", "?key=", secret))
+    key <- collections$key[grepl(pattern = collectionName, x = collections$data$name)]
+    if (length(key)==0) { # if collection does not exist, create it
+        response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/collections?key=", secret), config = httr::add_headers("Content-Type : application/json", paste0("Zotero-Write-Token: ", paste0(as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE)), as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE))))), body = jsonlite::toJSON(x = tribble(~name, collectionName)))
+        #parse positive response to extract key
+        response <- jsonlite::fromJSON(txt = sub(pattern = ".* kB", replacement = "", x = response))
+        key <- response$successful$`0`$data$key
+    }
+    key
 }

@@ -13,6 +13,9 @@ CreateZotCollection(user, collectionName, credentials)
 
 \item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
 }
+\value{
+The key of the newly created collection (or of the pre-existing collection, if already one with the same name exists) as a character vector
+}
 \description{
 Create a collection in Zotero
 }
