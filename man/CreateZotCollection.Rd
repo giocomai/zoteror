@@ -24,6 +24,6 @@ Creating a collection needs an API with write access
 }
 \examples{
 
-CreateZotCollection(user = 12345, collectionName = "ZoteroRtest", credentials = "<API>")
+key <- CreateZotCollection(user = 12345, collectionName = "ZoteroRtest", credentials = "<API>")
 }
 

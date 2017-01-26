@@ -11,7 +11,7 @@
 #' @export
 #' @examples
 #'
-#' CreateZotCollection(user = 12345, collectionName = "ZoteroRtest", credentials = "<API>")
+#' key <- CreateZotCollection(user = 12345, collectionName = "ZoteroRtest", credentials = "<API>")
 
 CreateZotCollection <- function(user, collectionName, credentials) {
     if (class(credentials)[1]=="OAuth") {
