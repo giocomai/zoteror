@@ -19,6 +19,6 @@ CreateZotCollection <- function(user, collectionName, credentials) {
     } else {
         secret <- credentials
     }
-    response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/collections?key=", secret), config = add_headers("Content-Type : application/json", paste0("Zotero-Write-Token: ", paste0(as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE)), as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE))))), body = jsonlite::toJSON(x = tribble(~name, collectionName)))
+    response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/collections?key=", secret), config = httr::add_headers("Content-Type : application/json", paste0("Zotero-Write-Token: ", paste0(as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE)), as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE))))), body = jsonlite::toJSON(x = tribble(~name, collectionName)))
     response
 }
