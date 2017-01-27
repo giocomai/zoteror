@@ -15,5 +15,6 @@ Imports:
     ROAuth,
     httr,
     random,
-    jsonlite
+    jsonlite,
+    settings
 RoxygenNote: 5.0.1

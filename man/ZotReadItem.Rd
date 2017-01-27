@@ -4,10 +4,12 @@
 \alias{ZotReadItem}
 \title{Read details of a Zotero item}
 \usage{
-ZotReadItem(id, user, credentials)
+ZotReadItem(id, user = NULL, credentials = NULL)
 }
 \arguments{
 \item{user}{Zotero userId}
+
+\item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
 }
 \value{
 A list including all available details on a given item.
