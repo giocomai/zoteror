@@ -24,7 +24,7 @@ It is under active development, but is not currently functioning.
 
 ### Create an API key and store credentials
 ```{r, echo=TRUE, eval=FALSE}
-credentials <- AuthZot(store = TRUE)
+credentials <- ZotAuth(store = TRUE)
 ```
 The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parametere store is enabled - AuthZot(store=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account. If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
 

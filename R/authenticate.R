@@ -2,7 +2,7 @@
 #'
 #' Authenticate to a Zotero account (get keys)
 #'
-#' The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parametere store is enabled - AuthZot(store=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.
+#' The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parametere store is enabled - ZotAuth(store=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.
 #' If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
 #'
 #' @param store Logical, defaults to FALSE. If TRUE, it stores the credentials in the working diretory in a file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.
@@ -10,9 +10,9 @@
 #' @export
 #' @examples
 #'
-#' credentials <- AuthZot(store=TRUE)
+#' credentials <- ZotAuth(store=TRUE)
 
-AuthZot <- function(store = FALSE) {
+ZotAuth <- function(store = FALSE) {
     if (file.exists("ZoteroCredentials.rds")==TRUE) {
         credentials <- read_rds(path = "ZoteroCredentials.rds")
     } else {
