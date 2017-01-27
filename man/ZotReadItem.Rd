@@ -4,7 +4,7 @@
 \alias{ZotReadItem}
 \title{Read details of a Zotero item}
 \usage{
-ZotReadItem(user, id, credentials)
+ZotReadItem(id, user, credentials)
 }
 \arguments{
 \item{user}{Zotero userId}
