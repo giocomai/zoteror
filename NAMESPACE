@@ -2,5 +2,5 @@
 
 export(AuthZot)
 export(CreateZotCollection)
-export(ReadZotItem)
+export(ZotReadItem)
 export(ZotSize)

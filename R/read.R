@@ -8,9 +8,9 @@
 #' @export
 #' @examples
 #'
-#' item <- ReadZotItem()
+#' item <- ZotReadItem()
 
-ReadZotItem <- function(user, id, credentials) {
+ZotReadItem <- function(user, id, credentials) {
     if (class(credentials)[1]=="OAuth") {
         secret <- credentials$oauthSecret
     } else {
