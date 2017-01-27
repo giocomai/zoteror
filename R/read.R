@@ -4,7 +4,7 @@
 #'
 #'
 #' @param user Zotero userId
-#' @return
+#' @return A list including all available details on a given item.
 #' @export
 #' @examples
 #'

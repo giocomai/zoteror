@@ -6,7 +6,7 @@
 #' If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
 #'
 #' @param store Logical, defaults to FALSE. If TRUE, it stores the credentials in the working diretory in a file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.
-#' @return
+#' @return A OAuth object including the Zotero API key.
 #' @export
 #' @examples
 #'

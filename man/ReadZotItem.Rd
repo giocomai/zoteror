@@ -9,6 +9,9 @@ ReadZotItem(user, id, credentials)
 \arguments{
 \item{user}{Zotero userId}
 }
+\value{
+A list including all available details on a given item.
+}
 \description{
 Read details of a Zotero item
 }

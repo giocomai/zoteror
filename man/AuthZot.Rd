@@ -9,6 +9,9 @@ AuthZot(store = FALSE)
 \arguments{
 \item{store}{Logical, defaults to FALSE. If TRUE, it stores the credentials in the working diretory in a file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.}
 }
+\value{
+A OAuth object including the Zotero API key.
+}
 \description{
 Authenticate to a Zotero account (get keys)
 }
