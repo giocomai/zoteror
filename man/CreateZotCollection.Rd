@@ -4,12 +4,12 @@
 \alias{CreateZotCollection}
 \title{Create a collection in Zotero}
 \usage{
-CreateZotCollection(user, collectionName, credentials)
+CreateZotCollection(collectionName, user = NULL, credentials = NULL)
 }
 \arguments{
-\item{user}{Zotero userId}
-
 \item{collectionName}{Name of the collection to be added}
+
+\item{user}{Zotero userId}
 
 \item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
 }

@@ -13,7 +13,13 @@
 #'
 #' key <- CreateZotCollection(user = 12345, collectionName = "ZoteroRtest", credentials = "<API>")
 
-CreateZotCollection <- function(user, collectionName, credentials) {
+CreateZotCollection <- function(collectionName, user = NULL, credentials = NULL) {
+    if (is.null(user) == TRUE) {
+        user <- ZotOptions("user")
+    }
+    if (is.null(credentials) == TRUE) {
+        credentials <- ZotOptions("credentials")
+    }
     if (class(credentials)[1]=="OAuth") {
         secret <- credentials$oauthSecret
     } else {
