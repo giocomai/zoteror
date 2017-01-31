@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{ZotWhichCollection}
 \alias{ZotWhichCollection}
-\title{Extract categories in which given item is included}
+\title{Extract collections in which given item is included}
 \usage{
 ZotWhichCollection(id, user = NULL, credentials = NULL)
 }
@@ -15,7 +15,7 @@ ZotWhichCollection(id, user = NULL, credentials = NULL)
 A charachter vector including all categories in which given item is included.
 }
 \description{
-Extract categories in which given item is included
+Extract collections in which given item is included
 }
 \examples{
 

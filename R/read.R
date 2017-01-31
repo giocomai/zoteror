@@ -26,9 +26,9 @@ ZotReadItem <- function(id, user = NULL, credentials = NULL) {
     jsonlite::fromJSON(txt = paste0("https://api.zotero.org/users/", user, "/items/", id, "?key=", secret))
 }
 
-#' Extract categories in which given item is included
+#' Extract collections in which given item is included
 #'
-#' Extract categories in which given item is included
+#' Extract collections in which given item is included
 #'
 #'
 #' @param user Zotero userId
