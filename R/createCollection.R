@@ -1,6 +1,6 @@
 #' Create a collection in Zotero
 #'
-#' Create a collection in Zotero
+#' Create a collection in Zotero. If a collection by the same name exists, it does not create a new one, but rather outputs the id of that collection.
 #'
 #' Creating a collection needs an API with write access
 #'

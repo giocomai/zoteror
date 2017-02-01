@@ -17,7 +17,7 @@ CreateZotCollection(collectionName, user = NULL, credentials = NULL)
 The key of the newly created collection (or of the pre-existing collection, if already one with the same name exists) as a character vector
 }
 \description{
-Create a collection in Zotero
+Create a collection in Zotero. If a collection by the same name exists, it does not create a new one, but rather outputs the id of that collection.
 }
 \details{
 Creating a collection needs an API with write access
