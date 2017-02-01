@@ -2,6 +2,7 @@
 
 export(CreateZotCollection)
 export(SetZotOptions)
+export(ZotAddToCollection)
 export(ZotAuth)
 export(ZotReadItem)
 export(ZotSize)
