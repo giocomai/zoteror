@@ -7,6 +7,8 @@
 ZotReadItem(id, user = NULL, credentials = NULL)
 }
 \arguments{
+\item{id}{Id code of a zotero item}
+
 \item{user}{Zotero userId}
 
 \item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}

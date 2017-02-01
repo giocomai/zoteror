@@ -3,6 +3,7 @@
 #' Read details of a Zotero item
 #'
 #'
+#' @param id Id code of a zotero item
 #' @param user Zotero userId
 #' @param credentials Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
 #' @return A list including all available details on a given item.
