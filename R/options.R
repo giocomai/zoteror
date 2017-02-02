@@ -10,8 +10,8 @@ ZotOptions <- settings::options_manager(user = NULL, credentials = NULL)
 #' @return Nothing. Used for its side effects (stores settings).
 #' @export
 #' @examples
-#' ZotOptions(user = 12345, credentials = <API>)
-SetZotOptions <- function(...){
+#' ZotSetOptions(user = 12345, credentials = <API>)
+ZotSetOptions <- function(...){
     # protect against the use of reserved words.
     settings::stop_if_reserved(...)
     ZotOptions(...)
