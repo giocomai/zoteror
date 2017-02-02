@@ -4,16 +4,16 @@
 #'
 #' Creating a collection needs an API with write access
 #'
-#' @param user Zotero userId
 #' @param collectionName Name of the collection to be added
+#' @param user Zotero userId
 #' @param credentials Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
 #' @return The key of the newly created collection (or of the pre-existing collection, if already one with the same name exists) as a character vector
 #' @export
 #' @examples
 #'
-#' key <- CreateZotCollection(user = 12345, collectionName = "ZoteroRtest", credentials = "<API>")
+#' key <- ZotCreateCollection(user = 12345, collectionName = "ZoteroRtest", credentials = "<API>")
 
-CreateZotCollection <- function(collectionName, user = NULL, credentials = NULL) {
+ZotCreateCollection <- function(collectionName, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
         user <- ZotOptions("user")
     }
