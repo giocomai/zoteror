@@ -23,4 +23,3 @@ If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
 
 credentials <- ZotAuth(store=TRUE)
 }
-

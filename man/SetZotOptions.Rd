@@ -20,4 +20,3 @@ It allows to preliminary store options frequently used by 'zoteroR', thus removi
 \examples{
 ZotOptions(user = 12345, credentials = <API>)
 }
-

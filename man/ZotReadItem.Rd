@@ -23,4 +23,3 @@ Read details of a Zotero item
 
 item <- ZotReadItem()
 }
-

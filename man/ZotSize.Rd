@@ -19,4 +19,3 @@ Find size of zotero objects stored locally
 
 size <- ZotSize()
 }
-

@@ -21,4 +21,3 @@ Extract collections in which given item is included
 
 categories <- ZotWhichCollection(item = "X1X2X3")
 }
-
