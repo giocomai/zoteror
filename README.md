@@ -59,7 +59,6 @@ Outputs a list with all available information on the item.
 
 ``` r
 size <- ZotSize(path = "/home/user/.mozilla/firefox/XXXXXX.default/zotero/storage")
-}
 ```
 
 It requires the full path to the local Zotero folder. Outputs size of stored items in bytes and in human-readable Mb.
