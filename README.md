@@ -55,6 +55,14 @@ item <- ZotReadItem(id = "<itemId>")
 
 Outputs a list with all available information on the item.
 
+### In which collection(s) is an item?
+
+`ZotWhichCollection` allows to find out in which collection is an item. If the ID given refers to a 'child item' (e.g. a pdf attachment to a journal article), the function looks for the collection(s) in which the parent item is included. \[attachments have separate IDs, and are thus to be found in a collection only if the 'parent item' is\]
+
+``` r
+item <- ZotWhichCollection(id = "<itemId>")
+```
+
 ### Calculate size of all locally stored zotero items
 
 ``` r
