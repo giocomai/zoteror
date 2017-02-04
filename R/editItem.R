@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #'
-#' item <- ZotAddToCollection()
+#' item <- ZotAddToCollection(id = "<itemId>", collectionId = "<collectionId>")
 
 ZotAddToCollection <- function(id, collectionId, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {

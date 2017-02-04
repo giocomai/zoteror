@@ -21,5 +21,5 @@ Add item to a collection
 }
 \examples{
 
-item <- ZotAddToCollection()
+item <- ZotAddToCollection(id = "<itemId>", collectionId = "<collectionId>")
 }

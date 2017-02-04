@@ -63,6 +63,12 @@ Outputs a list with all available information on the item.
 item <- ZotWhichCollection(id = "<itemId>")
 ```
 
+### Add an item to a collection
+
+``` r
+ZotAddToCollection(id = "<itemId>", collectionId = "<collectionId>")
+```
+
 ### Calculate size of all locally stored zotero items
 
 ``` r
