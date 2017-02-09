@@ -36,3 +36,4 @@ ZotCreateCollection <- function(collectionName, user = NULL, credentials = NULL)
     }
     key
 }
+
