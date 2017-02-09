@@ -17,6 +17,8 @@ ZotSize <- function(path) {
     for (i in seq_along(itemFolders)) {
         itemSize$Size[i] <- sum(file.info(list.files(path = itemFolders[i], all.files = TRUE, recursive = TRUE, full.names = TRUE))$size)
     }
+    message(paste(nrow(itemSize), "items found, for a total of "),
+            utils:::format.object_size(sum(itemSize$Size), "Mb"))
     itemSize %>% arrange(desc(Size)) %>% mutate(SizeMb = utils:::format.object_size(Size, "Mb"))
 }
 
