@@ -23,17 +23,18 @@ ZotAddToCollection <- function(id, collectionId, user = NULL, credentials = NULL
     } else {
         secret <- credentials
     }
+    ## get info on item to find item version
+    item <- ZotReadItem(id = id, user = user, credentials = secret)
+    ## if item id given is of an attachment, add the parent to given collection
+    if (is.null(item$data$parentItem)==FALSE) {
+        id <- item$data$parentItem
+        item <- ZotReadItem(id = id, user = user, credentials = secret)
+    }
     previousCollections <- ZotWhichCollection(id, user = user, credentials = secret)
     if (length(previousCollections) > 0) {
         collectionId <- c(collectionId, previousCollections)
     }
-    ## get info on item to find item version
-    item <- ZotReadItem(id = id)
-    ## if item id given is of a file, add the parent to given collection
-    if (is.null(item$data$collections)==TRUE) {
-        id <- item$data$parentItem
-        item <- ZotReadItem(id = id, user = user, credentials = credentials)
-    }
+    message(paste("Adding", item$data$itemType, dQuote(item$data$title)))
     response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/items?key=", secret), config = httr::add_headers("Content-Type : application/json", paste0("Zotero-Write-Token: ", paste0(as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE)), as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE))))),
                            body = jsonlite::toJSON(x = tribble(~key, ~version, ~collections, id, item$version, c(collectionId, collectionId))))
     response
