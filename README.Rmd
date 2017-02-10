@@ -75,3 +75,21 @@ ZotAddToCollection(id = "<itemId>", collectionId = "<collectionId>")
 size <- ZotSize(path = "/home/user/.mozilla/firefox/XXXXXX.default/zotero/storage")
 ```
 It requires the full path to the local Zotero folder. Outputs size of stored items in bytes and in human-readable Mb. 
+
+## Use case: add all items with attachments bigger than 5MB to a collection
+
+```{r, echo=TRUE, eval=FALSE}
+library("zoteroR")
+ZotSetOptions(user = 12345, credentials = "<API>") # insert user id and API credentials
+size <- ZotSize(path = "/home/g/.mozilla/firefox/XXXXXXX.default/zotero/storage") # full path to Zotero storage folder
+
+bigIDs <- size %>% filter(Size>5000000) %>% select(ID) #filters items larger than 5MB
+
+bigCollectionID <- ZotCreateCollection(collectionName = "plus5") #creates collection "plus5", and if already existing simply outputs its key
+
+for (i in seq_along(bigIDs$ID)) {
+    try(ZotAddToCollection(id = bigIDs$ID[i], collectionId = bigCollectionID))
+}
+
+```
+This adds all items larger tan 5Mb to a collection called "plus5". `ZotAddToCollection` is inside `try` to prevent timeout and other errors to stop the script. While running the script outputs the type of title of items being added to the collection. Currently it goes quite slowly, thus giving time to stop the script if something odd happens. API would allow much more efficient ways of bulk changing items, but for the time being; when the package will work more efficiently, it will still allow to keep the process artificially slow in order to monitor potential oddities.
