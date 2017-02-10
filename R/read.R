@@ -52,10 +52,10 @@ ZotWhichCollection <- function(id, user = NULL, credentials = NULL) {
     } else {
         secret <- credentials
     }
-  item <- ZotReadItem(id = id, user = user, credentials = credentials)
+  item <- ZotReadItem(id = id, user = user, credentials = secret)
   if (is.null(item$data$collections)==TRUE) {
       id <- item$data$parentItem
-      item <- ZotReadItem(id = id, user = user, credentials = credentials)
+      item <- ZotReadItem(id = id, user = user, credentials = secret)
   }
   item$data$collections
 }
