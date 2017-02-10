@@ -20,6 +20,9 @@ ZotCreateCollection <- function(collectionName, user = NULL, credentials = NULL)
     if (is.null(credentials) == TRUE) {
         credentials <- ZotOptions("credentials")
     }
+    if (is.null(credentials)==TRUE|is.null(user)==TRUE) {
+        stop("User and credentials must be provided, either as parameter or with the dedicated function ZotSetOptions(user = 12345, credentials = <API>)")
+    }
     if (class(credentials)[1]=="OAuth") {
         secret <- credentials$oauthSecret
     } else {
