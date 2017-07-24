@@ -1,7 +1,7 @@
 Package: zoteroR
 Type: Package
 Title: Access the Zotero API in R
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: person("Giorgio", "Comai", email = "giorgiocomai@gmail.com", role = c("aut", "cre"))
 Description: RZotero provides tools to access the Zotero API
 Depends:
@@ -14,7 +14,6 @@ Depends:
 Imports:
     ROAuth,
     httr,
-    random,
     jsonlite,
     settings
 RoxygenNote: 6.0.0

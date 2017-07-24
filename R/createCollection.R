@@ -32,7 +32,10 @@ ZotCreateCollection <- function(collectionName, user = NULL, credentials = NULL)
     collections <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/users/", user, "/collections/top", "?key=", secret))
     key <- collections$key[grepl(pattern = collectionName, x = collections$data$name)]
     if (length(key)==0) { # if collection does not exist, create it
-        response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/collections?key=", secret), config = httr::add_headers("Content-Type : application/json", paste0("Zotero-Write-Token: ", paste0(as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE)), as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE))))), body = jsonlite::toJSON(x = tribble(~name, collectionName)))
+        response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/collections?key=", secret),
+                               config = httr::add_headers("Content-Type : application/json",
+                                                          paste(sample(c(0:9, letters, LETTERS), 32, replace=TRUE), collapse="")),
+                               body = jsonlite::toJSON(x = tribble(~name, collectionName)))
         #parse positive response to extract key
         response <- jsonlite::fromJSON(txt = sub(pattern = ".* kB", replacement = "", x = response))
         key <- response$successful$`0`$data$key

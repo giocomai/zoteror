@@ -35,7 +35,9 @@ ZotAddToCollection <- function(id, collectionId, user = NULL, credentials = NULL
         collectionId <- c(collectionId, previousCollections)
     }
     message(paste("Adding", item$data$itemType, dQuote(item$data$title)))
-    response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/items?key=", secret), config = httr::add_headers("Content-Type : application/json", paste0("Zotero-Write-Token: ", paste0(as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE)), as.character(random::randomStrings(n=1, len=16, digits=TRUE, upperalpha=FALSE, loweralpha=TRUE, unique=TRUE, check=TRUE))))),
+    response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/items?key=", secret),
+                           config = httr::add_headers("Content-Type : application/json",
+                                                      paste0("Zotero-Write-Token: ", paste(sample(c(0:9, letters, LETTERS), 32, replace=TRUE), collapse=""))),
                            body = jsonlite::toJSON(x = tribble(~key, ~version, ~collections, id, item$version, c(collectionId, collectionId))))
     response
 }
