@@ -3,6 +3,7 @@
 export(ZotAddToCollection)
 export(ZotAuth)
 export(ZotCreateCollection)
+export(ZotReadChildren)
 export(ZotReadItem)
 export(ZotSetOptions)
 export(ZotSize)
