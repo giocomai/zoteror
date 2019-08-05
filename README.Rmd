@@ -30,9 +30,9 @@ install_github(repo = "giocomai/zoteroR")
 
 ### Create an API key and store credentials
 ```{r, echo=TRUE, eval=FALSE}
-credentials <- ZotAuth(store = TRUE)
+credentials <- ZotAuth(cache = TRUE)
 ```
-The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parameter store is enabled - AuthZot(store=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account. If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
+The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parameter store is enabled - AuthZot(cache=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account. If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
 
 N.B. At this stage, it may be easier to actually login on Zotero, go to the (Feeds/API page in Settings)[https://www.zotero.org/settings/keys], and create an API from there.
 
@@ -92,4 +92,4 @@ for (i in seq_along(bigIDs$ID)) {
 }
 
 ```
-This adds all items larger tan 5Mb to a collection called "plus5". `ZotAddToCollection` is inside `try` to prevent timeout and other errors to stop the script. While running the script outputs the type of title of items being added to the collection. Currently it goes quite slowly, thus giving time to stop the script if something odd happens. API would allow much more efficient ways of bulk changing items, but for the time being; when the package will work more efficiently, it will still allow to keep the process artificially slow in order to monitor potential oddities.
+This adds all items larger tan 5Mb to a collection called "plus5". `ZotAddToCollection` is inside `try` to prevent timeout and other errors to stop the script. While running the script outputs the title of items being added to the collection. Currently it goes quite slowly, thus giving time to stop the script if something odd happens. API would allow much more efficient ways of bulk changing items; when the package will work more efficiently, it will still allow to keep the process artificially slow in order to monitor potential oddities.

@@ -19,7 +19,7 @@ ZotSize <- function(path) {
     }
     message(paste(nrow(itemSize), "items found, for a total of "),
             utils:::format.object_size(sum(itemSize$Size), "Mb"))
-    itemSize %>% arrange(desc(Size)) %>% mutate(SizeMb = utils:::format.object_size(Size, "Mb"))
+    itemSize %>% dplyr::arrange(desc(Size)) %>% dplyr::mutate(SizeMb = utils:::format.object_size(Size, "Mb"))
 }
 
 

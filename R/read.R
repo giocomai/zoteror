@@ -113,3 +113,70 @@ ZotWhichCollection <- function(id, user = NULL, credentials = NULL) {
   }
   item$data$collections
 }
+
+#' Find and show all valid item types
+#'
+#' Find and show all valid item types
+#'
+#'
+#' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
+#' @param locale Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"
+#' @return A charachter vector including all categories in which given item is included.
+#' @export
+#' @examples
+#'
+#' item_types <- zot_get_item_types()
+
+zot_get_item_types <- function(cache = TRUE, locale = NULL) {
+  if (cache == TRUE) {
+    dir.create(path = "zot_cache", showWarnings = FALSE)
+    if (file.exists(file.path("zot_cache", "item_types.rds"))) {
+      return(readRDS(file.path("zot_cache", "item_types.rds")))
+    } else {
+      if (is.null(locale)) {
+        item_types <- jsonlite::fromJSON(txt = "https://api.zotero.org/itemTypes")
+      } else {
+        item_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypes?locale=", locale))
+      }
+      saveRDS(object = item_types, file = file.path("zot_cache", "item_types.rds"))
+    }
+  } else {
+    if (is.null(locale)) {
+      item_types <- jsonlite::fromJSON(txt = "https://api.zotero.org/itemTypes")
+    } else {
+      item_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypes?locale=", locale))
+    }
+  }
+  return(item_types)
+}
+
+
+
+#' Get an item template for a valid item type
+#'
+#' Get an item template for a valid item type
+#'
+#'
+#' @param item_type Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`
+#' @param cache Logical, defaults to TRUE. If TRUE, it stores the template in a "zot_cache" folder in the current working directory.
+#' @return A charachter vector including all categories in which given item is included.
+#' @export
+#' @examples
+#'
+#' item_types <- zot_get_item_types()
+
+zot_get_item_template <- function(item_type = "book", cache=TRUE) {
+  if (cache == TRUE) {
+    dir.create(path = "zot_cache", showWarnings = FALSE)
+    template_location <- file.path("zot_cache", paste0(paste("item", item_type, "template", sep = "_"), ".rds"))
+    if (file.exists(template_location)) {
+      return(readRDS(template_location))
+    } else {
+      item_template <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/items/new?itemType=", item_type))
+      saveRDS(object = item_template, file = template_location)
+      return(item_template)
+    }
+  } else {
+    jsonlite::fromJSON(txt = paste0("https://api.zotero.org/items/new?itemType=", item_type))
+  }
+}

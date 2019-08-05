@@ -4,10 +4,10 @@
 \alias{ZotAuth}
 \title{Authenticate to a Zotero account}
 \usage{
-ZotAuth(store = FALSE)
+ZotAuth(cache = TRUE)
 }
 \arguments{
-\item{store}{Logical, defaults to FALSE. If TRUE, it stores the credentials in the working diretory in a file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.}
+\item{cache}{Logical, defaults to TRUE If TRUE, it stores the credentials in the working diretory in a file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.}
 }
 \value{
 A OAuth object including the Zotero API key.
@@ -16,10 +16,10 @@ A OAuth object including the Zotero API key.
 Authenticate to a Zotero account (get keys)
 }
 \details{
-The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parametere store is enabled - ZotAuth(store=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.
+The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parametere cache is enabled - ZotAuth(cache=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.
 If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
 }
 \examples{
 
-credentials <- ZotAuth(store=TRUE)
+credentials <- ZotAuth(cache=TRUE)
 }
