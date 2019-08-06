@@ -10,14 +10,14 @@
 #' @export
 #' @examples
 #'
-#' item <- ZotReadItem()
+#' item <- zot_read_item()
 
-ZotReadItem <- function(id, user = NULL, credentials = NULL) {
+zot_read_item <- function(id, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
-        user <- ZotOptions("user")
+        user <- zot_options("user")
     }
     if (is.null(credentials) == TRUE) {
-        credentials <- ZotOptions("credentials")
+        credentials <- zot_options("credentials")
     }
     if (class(credentials)[1]=="OAuth") {
         secret <- credentials$oauthSecret
@@ -43,10 +43,10 @@ ZotReadItem <- function(id, user = NULL, credentials = NULL) {
 
 ZotReadChildren <- function(id, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
-        user <- ZotOptions("user")
+        user <- zot_options("user")
     }
     if (is.null(credentials) == TRUE) {
-        credentials <- ZotOptions("credentials")
+        credentials <- zot_options("credentials")
     }
     if (class(credentials)[1]=="OAuth") {
         secret <- credentials$oauthSecret
@@ -73,10 +73,10 @@ ZotReadChildren <- function(id, user = NULL, credentials = NULL) {
 
 ZotReadChildrenId <- function(id, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
-        user <- ZotOptions("user")
+        user <- zot_options("user")
     }
     if (is.null(credentials) == TRUE) {
-        credentials <- ZotOptions("credentials")
+        credentials <- zot_options("credentials")
     }
     ZotReadChildren(id = id, user = user, credentials = credentials)$key
 }
@@ -92,24 +92,24 @@ ZotReadChildrenId <- function(id, user = NULL, credentials = NULL) {
 #' @export
 #' @examples
 #'
-#' categories <- ZotWhichCollection(item = "X1X2X3")
+#' categories <- zot_which_collection(item = "X1X2X3")
 
-ZotWhichCollection <- function(id, user = NULL, credentials = NULL) {
+zot_which_collection <- function(id, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
-        user <- ZotOptions("user")
+        user <- zot_options("user")
     }
     if (is.null(credentials) == TRUE) {
-        credentials <- ZotOptions("credentials")
+        credentials <- zot_options("credentials")
     }
     if (class(credentials)[1]=="OAuth") {
         secret <- credentials$oauthSecret
     } else {
         secret <- credentials
     }
-  item <- ZotReadItem(id = id, user = user, credentials = secret)
+  item <- zot_read_item(id = id, user = user, credentials = secret)
   if (is.null(item$data$collections)==TRUE) {
       id <- item$data$parentItem
-      item <- ZotReadItem(id = id, user = user, credentials = secret)
+      item <- zot_read_item(id = id, user = user, credentials = secret)
   }
   item$data$collections
 }

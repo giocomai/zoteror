@@ -8,9 +8,9 @@
 #' @export
 #' @examples
 #'
-#' size <- ZotSize()
+#' size <- zot_size()
 
-ZotSize <- function(path) {
+zot_size <- function(path) {
     itemFolders <- list.files(path = path, full.names = TRUE)
     id <- sub(pattern = ".*storage/", replacement = "", x = itemFolders)
     itemSize <- tibble::tibble(ID = id, Size = as.numeric(NA))
@@ -19,7 +19,9 @@ ZotSize <- function(path) {
     }
     message(paste(nrow(itemSize), "items found, for a total of "),
             utils:::format.object_size(sum(itemSize$Size), "Mb"))
-    itemSize %>% dplyr::arrange(desc(Size)) %>% dplyr::mutate(SizeMb = utils:::format.object_size(Size, "Mb"))
+    itemSize %>%
+        dplyr::arrange(desc(Size)) %>%
+        dplyr::mutate(SizeMb = utils:::format.object_size(Size, "Mb"))
 }
 
 

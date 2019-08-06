@@ -2,20 +2,20 @@
 #'
 #' Authenticate to a Zotero account (get keys)
 #'
-#' The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parametere cache is enabled - ZotAuth(cache=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.
-#' If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
+#' The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parametere cache is enabled - zot_auth(cache=TRUE) - zoteroR stores the credentials in a local file called "zotero_credentials.rds", which should be considered confidential since it provides access to a given Zotero account.
+#' If a pre-existing "zotero_credentials.rds" exists, it is loaded automatically.
 #'
-#' @param cache Logical, defaults to TRUE If TRUE, it stores the credentials in the working diretory in a file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account.
+#' @param cache Logical, defaults to TRUE If TRUE, it stores the credentials in the working diretory in a file called "zotero_credentials.rds", which should be considered confidential since it provides access to a given Zotero account.
 #' @return A OAuth object including the Zotero API key.
 #' @export
 #' @examples
 #'
-#' credentials <- ZotAuth(cache=TRUE)
+#' credentials <- zot_auth(cache=TRUE)
 
-ZotAuth <- function(cache = TRUE) {
+zot_auth <- function(cache = TRUE) {
     if (cache == TRUE) {
-        if (file.exists(file.path("zot_cache", "ZoteroCredentials.rds"))==TRUE) {
-            credentials <- readr::read_rds(path = "ZoteroCredentials.rds")
+        if (file.exists(file.path("zot_cache", "zotero_credentials.rds"))==TRUE) {
+            credentials <- readr::read_rds(path = "zotero_credentials.rds")
         } else {
             credentials <-
                 ROAuth::OAuthFactory$new(consumerKey="16dc29d962b135e62352",
@@ -25,7 +25,7 @@ ZotAuth <- function(cache = TRUE) {
                                          authURL="https://www.zotero.org/oauth/authorize")
             credentials$handshake()
             dir.create(path = "zot_cache", showWarnings = FALSE)
-            saveRDS(object = credentials, file = file.path("zot_cache", "ZoteroCredentials.rds"))
+            saveRDS(object = credentials, file = file.path("zot_cache", "zotero_credentials.rds"))
         }
     }
     credentials

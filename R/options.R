@@ -1,6 +1,6 @@
 # Variable, global to package's namespace.
 # This function is not exported to user space and does not need to be documented.
-ZotOptions <- settings::options_manager(user = NULL, credentials = NULL)
+zot_options <- settings::options_manager(user = NULL, credentials = NULL)
 
 #' Sets 'zoteroR' options
 #'
@@ -10,9 +10,9 @@ ZotOptions <- settings::options_manager(user = NULL, credentials = NULL)
 #' @return Nothing. Used for its side effects (stores settings).
 #' @export
 #' @examples
-#' ZotSetOptions(user = 12345, credentials = <API>)
-ZotSetOptions <- function(...){
+#' zot_set_options(user = 12345, credentials = <API>)
+zot_set_options <- function(...){
     # protect against the use of reserved words.
     settings::stop_if_reserved(...)
-    ZotOptions(...)
+    zot_options(...)
 }

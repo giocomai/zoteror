@@ -9,14 +9,14 @@
 #' @export
 #' @examples
 #'
-#' item <- ZotAddToCollection(id = "<itemId>", collectionId = "<collectionId>")
+#' item <- zot_add_to_collection(id = "<itemId>", collection_id = "<collection_id>")
 
-ZotAddToCollection <- function(id, collectionId, user = NULL, credentials = NULL) {
+zot_add_to_collection <- function(id, collection_id, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
-        user <- ZotOptions("user")
+        user <- zot_options("user")
     }
     if (is.null(credentials) == TRUE) {
-        credentials <- ZotOptions("credentials")
+        credentials <- zot_options("credentials")
     }
     if (class(credentials)[1]=="OAuth") {
         secret <- credentials$oauthSecret
@@ -24,20 +24,21 @@ ZotAddToCollection <- function(id, collectionId, user = NULL, credentials = NULL
         secret <- credentials
     }
     ## get info on item to find item version
-    item <- ZotReadItem(id = id, user = user, credentials = secret)
+    item <- zot_read_item(id = id, user = user, credentials = secret)
     ## if item id given is of an attachment, add the parent to given collection
     if (is.null(item$data$parentItem)==FALSE) {
         id <- item$data$parentItem
-        item <- ZotReadItem(id = id, user = user, credentials = secret)
+        item <- zot_read_item(id = id, user = user, credentials = secret)
     }
-    previousCollections <- ZotWhichCollection(id, user = user, credentials = secret)
-    if (length(previousCollections) > 0) {
-        collectionId <- c(collectionId, previousCollections)
+    previous_collections <- zot_which_collection(id, user = user, credentials = secret)
+    if (length(previous_collections) > 0) {
+        collection_id <- c(collection_id, previous_collections)
     }
     message(paste("Adding", item$data$itemType, dQuote(item$data$title)))
     response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/items?key=", secret),
                            config = httr::add_headers("Content-Type : application/json",
                                                       paste0("Zotero-Write-Token: ", paste(sample(c(0:9, letters, LETTERS), 32, replace=TRUE), collapse=""))),
-                           body = jsonlite::toJSON(x = tribble(~key, ~version, ~collections, id, item$version, c(collectionId, collectionId))))
+                           body = jsonlite::toJSON(x = tibble::tribble(~key, ~version, ~collections,
+                                                                       id, item$version, c(collection_id, collection_id))))
     response
 }

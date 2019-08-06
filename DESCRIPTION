@@ -1,7 +1,7 @@
 Package: zoteroR
 Type: Package
 Title: Access the Zotero API in R
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: person("Giorgio", "Comai", email = "g@giorgiocomai.eu", role = c("aut", "cre"))
 Description: zoteroR provides tools to access the Zotero API
 License: GPL-3

@@ -25,12 +25,12 @@ install_github(repo = "giocomai/zoteroR")
 ### Create an API key and store credentials
 
 ``` r
-credentials <- ZotAuth(store = TRUE)
+credentials <- ZotAuth(cache = TRUE)
 ```
 
 The verification code that appears at the end of the URL after
 authorization in browser should be input as verification PIN. If the
-parameter store is enabled - AuthZot(store=TRUE) - zoteroR stores the
+parameter store is enabled - AuthZot(cache=TRUE) - zoteroR stores the
 credentials in a local file called “ZoteroCredentials.rds”, which should
 be considered confidential since it provides access to a given Zotero
 account. If a pre-existing “ZoteroCredentials.rds” exists, it is loaded
@@ -58,7 +58,7 @@ functions.
 ### Create a collection
 
 ``` r
-key <- ZotCreateCollection(user = 12345, collectionName = "ZoteroR", credentials = "<API>")
+key <- zot_create_collection(user = 12345, collectionName = "ZoteroR", credentials = "<API>")
 ```
 
 Creates a new collection by the given name, and outputs its key. If a
@@ -69,7 +69,7 @@ one, but rather outputs the key of the pre-existing collection.
 ### Extract details of an item
 
 ``` r
-item <- ZotReadItem(id = "<itemId>")
+item <- zot_read_item(id = "<itemId>")
 ```
 
 Outputs a list with all available information on the item.
@@ -84,19 +84,19 @@ to be found in a collection only if the ‘parent item’
 is\]
 
 ``` r
-item <- ZotWhichCollection(id = "<itemId>")
+item <- zot_wich_collection(id = "<itemId>")
 ```
 
 ### Add an item to a collection
 
 ``` r
-ZotAddToCollection(id = "<itemId>", collectionId = "<collectionId>")
+zot_add_to_collection(id = "<itemId>", collectionId = "<collectionId>")
 ```
 
 ### Calculate size of all locally stored zotero items
 
 ``` r
-size <- ZotSize(path = "/home/user/.mozilla/firefox/XXXXXX.default/zotero/storage")
+size <- zot_size(path = "/home/user/.mozilla/firefox/XXXXXX.default/zotero/storage")
 ```
 
 It requires the full path to the local Zotero folder. Outputs size of
@@ -107,23 +107,23 @@ Mb.
 
 ``` r
 library("zoteroR")
-ZotSetOptions(user = 12345, credentials = "<API>") # insert user id and API credentials
-size <- ZotSize(path = "/home/g/.mozilla/firefox/XXXXXXX.default/zotero/storage") # full path to Zotero storage folder
+zot_set_options(user = 12345, credentials = "<API>") # insert user id and API credentials
+size <- zot_size(path = "/home/g/.mozilla/firefox/XXXXXXX.default/zotero/storage") # full path to Zotero storage folder
 
 bigIDs <- size %>% filter(Size>5000000) %>% select(ID) #filters items larger than 5MB
 
-bigCollectionID <- ZotCreateCollection(collectionName = "plus5") #creates collection "plus5", and if already existing simply outputs its key
+big_collection_id <- zot_create_collection(collectionName = "plus5") #creates collection "plus5", and if already existing simply outputs its key
 
 for (i in seq_along(bigIDs$ID)) {
-    try(ZotAddToCollection(id = bigIDs$ID[i], collectionId = bigCollectionID))
+    try(zot_add_to_collection(id = bigIDs$ID[i], collectionId = big_collection_id))
 }
 ```
 
 This adds all items larger tan 5Mb to a collection called “plus5”.
-`ZotAddToCollection` is inside `try` to prevent timeout and other errors
-to stop the script. While running the script outputs the title of items
-being added to the collection. Currently it goes quite slowly, thus
-giving time to stop the script if something odd happens. API would allow
-much more efficient ways of bulk changing items; when the package will
-work more efficiently, it will still allow to keep the process
+`zot_add_to_collection()` is inside `try` to prevent timeout and other
+errors to stop the script. While running the script outputs the title of
+items being added to the collection. Currently it goes quite slowly,
+thus giving time to stop the script if something odd happens. API would
+allow much more efficient ways of bulk changing items; when the package
+will work more efficiently, it will still allow to keep the process
 artificially slow in order to monitor potential oddities.
