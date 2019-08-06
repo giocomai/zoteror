@@ -15,5 +15,6 @@ Imports:
     dplyr,
     tibble,
     readr,
-    magrittr
+    magrittr,
+    fs
 RoxygenNote: 6.1.1

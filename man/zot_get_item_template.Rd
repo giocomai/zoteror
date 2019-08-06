@@ -12,7 +12,7 @@ zot_get_item_template(item_type = "book", cache = TRUE)
 \item{cache}{Logical, defaults to TRUE. If TRUE, it stores the template in a "zot_cache" folder in the current working directory.}
 }
 \value{
-A charachter vector including all categories in which given item is included.
+A list. A template for creating items of the given item_type.
 }
 \description{
 Get an item template for a valid item type

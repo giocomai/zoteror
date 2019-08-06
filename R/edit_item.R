@@ -42,3 +42,50 @@ zot_add_to_collection <- function(id, collection_id, user = NULL, credentials = 
                                                                        id, item$version, c(collection_id, collection_id))))
     response
 }
+
+
+#' Create a template to facilitate import of csv files
+#'
+#' Create a template to facilitate import of csv files
+#'
+#'
+#' @param item_type Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`
+#' @param cache Logical, defaults to TRUE. If TRUE, it stores the template in a "zot_cache" folder in the current working directory.
+#' @return A data frame, with one column for each accepted input for the given item type.
+#' @export
+#' @examples
+#'
+#' book_template_df <- zot_create_csv_template(item_type = "book")
+
+zot_create_csv_template <- function(item_type = "book", cache = TRUE) {
+
+    item <- zot_get_item_template(item_type = item_type, cache = cache)
+
+    item_df <- tibble::as_tibble(matrix(data = as.character(vector()),
+                                        nrow =  0,
+                                        ncol = length(names(item)),
+                                        dimnames=list(c(), names(item))),
+                                 stringsAsFactors=FALSE)
+    fs::dir_create(path = "zot_csv_templates")
+    readr::write_csv(x = item_df,
+                     path = fs::path("zot_csv_templates",
+                                     paste0(item_type,
+                                            "_template.csv")))
+    return(item_df)
+}
+
+
+
+zot_create_item <- function(item, user = NULL, credentials = NULL) {
+    if (is.null(user) == TRUE) {
+        user <- zot_options("user")
+    }
+    if (is.null(credentials) == TRUE) {
+        credentials <- zot_options("credentials")
+    }
+    if (class(credentials)[1]=="OAuth") {
+        secret <- credentials$oauthSecret
+    } else {
+        secret <- credentials
+    }
+}

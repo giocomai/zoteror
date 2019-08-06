@@ -119,6 +119,7 @@ zot_which_collection <- function(id, user = NULL, credentials = NULL) {
 #' Find and show all valid item types
 #'
 #'
+#' @param item_type Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`
 #' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
 #' @param locale Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"
 #' @return A charachter vector including all categories in which given item is included.
@@ -150,6 +151,43 @@ zot_get_item_types <- function(cache = TRUE, locale = NULL) {
   return(item_types)
 }
 
+#' Find and show all valid item types
+#'
+#' Find and show all valid item types
+#'
+#'
+#' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
+#' @param locale Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"
+#' @return A list including all valid creator types for given item type.
+#' @export
+#' @examples
+#'
+#' creator_types <- zot_get_creator_types()
+
+zot_get_creator_types <- function(item_type = "book", cache = TRUE, locale = NULL) {
+  if (cache == TRUE) {
+    file_location <- fs::path("zot_cache", paste0(item_type, "_creator_types.rds"))
+    fs::dir_create(path = "zot_cache")
+    if (fs::file_exists(file_location)) {
+      return(readRDS(file_location))
+    } else {
+      if (is.null(locale)) {
+        creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type))
+      } else {
+        creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type, "&locale=", locale))
+      }
+      readr::write_rds(x = creator_types,
+                       path = file_location)
+    }
+  } else {
+    if (is.null(locale)) {
+      creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type))
+    } else {
+      creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type, "&locale=", locale))
+    }
+  }
+  return(creator_types)
+}
 
 
 #' Get an item template for a valid item type
@@ -159,7 +197,7 @@ zot_get_item_types <- function(cache = TRUE, locale = NULL) {
 #'
 #' @param item_type Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`
 #' @param cache Logical, defaults to TRUE. If TRUE, it stores the template in a "zot_cache" folder in the current working directory.
-#' @return A charachter vector including all categories in which given item is included.
+#' @return A list. A template for creating items of the given item_type.
 #' @export
 #' @examples
 #'
@@ -180,3 +218,6 @@ zot_get_item_template <- function(item_type = "book", cache=TRUE) {
     jsonlite::fromJSON(txt = paste0("https://api.zotero.org/items/new?itemType=", item_type))
   }
 }
+
+
+
