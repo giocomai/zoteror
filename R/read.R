@@ -164,9 +164,16 @@ zot_get_item_types <- function(cache = TRUE, locale = NULL) {
 #'
 #' creator_types <- zot_get_creator_types()
 
-zot_get_creator_types <- function(item_type = "book", cache = TRUE, locale = NULL) {
+zot_get_creator_types <- function(item_type = "book",
+                                  cache = TRUE,
+                                  locale = NULL) {
   if (cache == TRUE) {
-    file_location <- fs::path("zot_cache", paste0(item_type, "_creator_types.rds"))
+    if (is.null(locale)==TRUE) {
+      file_location <- fs::path("zot_cache", paste0(item_type, "_creator_types.rds"))
+    } else {
+      file_location <- fs::path("zot_cache", paste0(item_type, "_creator_types", locale, ".rds"))
+    }
+
     fs::dir_create(path = "zot_cache")
     if (fs::file_exists(file_location)) {
       return(readRDS(file_location))
@@ -176,8 +183,6 @@ zot_get_creator_types <- function(item_type = "book", cache = TRUE, locale = NUL
       } else {
         creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type, "&locale=", locale))
       }
-      readr::write_rds(x = creator_types,
-                       path = file_location)
     }
   } else {
     if (is.null(locale)) {
