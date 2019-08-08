@@ -157,9 +157,9 @@ zot_get_item_types <- function(cache = TRUE, locale = NULL) {
   return(item_types)
 }
 
-#' Find and show all valid item types
+#' Find and show all valid creator types
 #'
-#' Find and show all valid item types
+#' Find and show all valid creator types
 #'
 #'
 #' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
@@ -232,3 +232,46 @@ zot_get_item_template <- function(item_type = "book", cache=TRUE) {
 
 
 
+
+#' Find and show all valid creator types
+#'
+#' Find and show all valid creator types
+#'
+#'
+#' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
+#' @param locale Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"
+#' @return A list including all valid creator types for given item type.
+#' @export
+#' @examples
+#'
+#' creator_types <- zot_get_creator_types()
+
+zot_get_item_types_fields <- function(item_type = "book",
+                                      cache = TRUE,
+                                      locale = NULL) {
+  if (cache == TRUE) {
+    if (is.null(locale)==TRUE) {
+      file_location <- fs::path("zot_cache", paste0(item_type, "_item_types_fields.rds"))
+    } else {
+      file_location <- fs::path("zot_cache", paste0(item_type, "_item_types_fields", locale, ".rds"))
+    }
+
+    fs::dir_create(path = "zot_cache")
+    if (fs::file_exists(file_location)) {
+      return(readRDS(file_location))
+    } else {
+      if (is.null(locale)) {
+        item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type))
+      } else {
+        item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type, "&locale=", locale))
+      }
+    }
+  } else {
+    if (is.null(locale)) {
+      item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type))
+    } else {
+      item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type, "&locale=", locale))
+    }
+  }
+  return(item_types_fields)
+}
