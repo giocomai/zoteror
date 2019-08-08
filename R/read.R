@@ -131,15 +131,21 @@ zot_which_collection <- function(id, user = NULL, credentials = NULL) {
 zot_get_item_types <- function(cache = TRUE, locale = NULL) {
   if (cache == TRUE) {
     dir.create(path = "zot_cache", showWarnings = FALSE)
-    if (file.exists(file.path("zot_cache", "item_types.rds"))) {
-      return(readRDS(file.path("zot_cache", "item_types.rds")))
+    if (is.null(locale)==TRUE) {
+      file_location <- fs::path("zot_cache", "item_types.rds")
+    } else {
+      file_location <- fs::path("zot_cache", paste0("item_types-", locale, ".rds"))
+    }
+
+    if (fs::file_exists(file_location)) {
+      return(readRDS(file_location))
     } else {
       if (is.null(locale)) {
         item_types <- jsonlite::fromJSON(txt = "https://api.zotero.org/itemTypes")
       } else {
         item_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypes?locale=", locale))
       }
-      saveRDS(object = item_types, file = file.path("zot_cache", "item_types.rds"))
+      readr::write_rds(x = item_types, path = file_location)
     }
   } else {
     if (is.null(locale)) {
