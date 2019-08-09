@@ -15,9 +15,8 @@ functional.
 # Install
 
 ``` r
-if(!require(devtools)) install.packages("devtools")
-library("devtools")
-install_github(repo = "giocomai/zoteroR")
+if(!require(remotes)) install.packages("remotes")
+remotes::install_github(repo = "giocomai/zoteroR")
 ```
 
 # What works at this stage
@@ -25,7 +24,7 @@ install_github(repo = "giocomai/zoteroR")
 ### Create an API key and store credentials
 
 ``` r
-credentials <- ZotAuth(cache = TRUE)
+credentials <- zot_auth(cache = TRUE)
 ```
 
 The verification code that appears at the end of the URL after
@@ -127,3 +126,5 @@ thus giving time to stop the script if something odd happens. API would
 allow much more efficient ways of bulk changing items; when the package
 will work more efficiently, it will still allow to keep the process
 artificially slow in order to monitor potential oddities.
+
+# Create new item

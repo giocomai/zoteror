@@ -21,16 +21,15 @@ It is currently under active development and is not yet fully functional.
 # Install
 
 ```{r, echo=TRUE, eval=FALSE}
-if(!require(devtools)) install.packages("devtools")
-library("devtools")
-install_github(repo = "giocomai/zoteroR")
+if(!require(remotes)) install.packages("remotes")
+remotes::install_github(repo = "giocomai/zoteroR")
 ```
 
 # What works at this stage
 
 ### Create an API key and store credentials
 ```{r, echo=TRUE, eval=FALSE}
-credentials <- ZotAuth(cache = TRUE)
+credentials <- zot_auth(cache = TRUE)
 ```
 The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parameter store is enabled - AuthZot(cache=TRUE) - zoteroR stores the credentials in a local file called "ZoteroCredentials.rds", which should be considered confidential since it provides access to a given Zotero account. If a pre-existing "ZoteroCredentials.rds" exists, it is loaded automatically.
 
@@ -93,3 +92,10 @@ for (i in seq_along(bigIDs$ID)) {
 
 ```
 This adds all items larger tan 5Mb to a collection called "plus5". `zot_add_to_collection()` is inside `try` to prevent timeout and other errors to stop the script. While running the script outputs the title of items being added to the collection. Currently it goes quite slowly, thus giving time to stop the script if something odd happens. API would allow much more efficient ways of bulk changing items; when the package will work more efficiently, it will still allow to keep the process artificially slow in order to monitor potential oddities.
+
+# Create new item
+
+```{r}
+
+```
+

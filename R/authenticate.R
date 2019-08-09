@@ -14,8 +14,9 @@
 
 zot_auth <- function(cache = TRUE) {
     if (cache == TRUE) {
-        if (file.exists(file.path("zot_cache", "zotero_credentials.rds"))==TRUE) {
-            credentials <- readr::read_rds(path = "zotero_credentials.rds")
+        file_location <- fs::path("zot_cache", "zotero_credentials.rds")
+        if (fs::file_exists(file_location)==TRUE) {
+            credentials <- readr::read_rds(path = file_location)
         } else {
             credentials <-
                 ROAuth::OAuthFactory$new(consumerKey="16dc29d962b135e62352",
@@ -24,8 +25,9 @@ zot_auth <- function(cache = TRUE) {
                                          accessURL="https://www.zotero.org/oauth/access",
                                          authURL="https://www.zotero.org/oauth/authorize")
             credentials$handshake()
-            dir.create(path = "zot_cache", showWarnings = FALSE)
-            saveRDS(object = credentials, file = file.path("zot_cache", "zotero_credentials.rds"))
+            fs::dir_create(path = "zot_cache")
+            readr::write_rds(x = credentials,
+                             path = file_location)
         }
     }
     credentials
