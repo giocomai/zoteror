@@ -251,21 +251,21 @@ zot_get_item_types_fields <- function(item_type = "book",
                                       cache = TRUE,
                                       locale = NULL) {
   if (cache == TRUE) {
+    fs::dir_create(path = "zot_cache")
     if (is.null(locale)==TRUE) {
       file_location <- fs::path("zot_cache", paste0(item_type, "_item_types_fields.rds"))
     } else {
       file_location <- fs::path("zot_cache", paste0(item_type, "_item_types_fields", locale, ".rds"))
     }
-
-    fs::dir_create(path = "zot_cache")
     if (fs::file_exists(file_location)) {
-      return(readRDS(file_location))
+      return(readr::read_rds(file_location))
     } else {
       if (is.null(locale)) {
         item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type))
       } else {
         item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type, "&locale=", locale))
       }
+      readr::write_rds(x = item_types_fields, path = file_location)
     }
   } else {
     if (is.null(locale)) {
