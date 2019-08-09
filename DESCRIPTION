@@ -13,6 +13,8 @@ Imports:
     jsonlite,
     settings,
     dplyr,
+    purrr,
+    stringr,
     tibble,
     readr,
     magrittr,

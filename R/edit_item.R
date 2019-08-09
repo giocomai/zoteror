@@ -76,6 +76,8 @@ zot_create_csv_template <- function(item_type = "book", cache = TRUE) {
 
 
 
+# If you get error 403 in response, make sure your API have writing access. You can edit your keys from https://www.zotero.org/settings/keys.
+
 zot_create_item <- function(item, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
         user <- zot_options("user")
@@ -88,4 +90,32 @@ zot_create_item <- function(item, user = NULL, credentials = NULL) {
     } else {
         secret <- credentials
     }
+
+    item <- zot_get_item_template()
+
+    item_classes <- sapply(item, class)
+    which(item_classes=="character")
+
+    item[which(item_classes=="character")]
+    item$creators
+
+    item[["title"]] <- "test"
+    item[["publisher"]] <- "test"
+
+
+    item_df <- tibble::as_tibble(matrix(data = as.character(vector()),
+                                        nrow =  0,
+                                        ncol = length(names(item)),
+                                        dimnames=list(c(), names(item))),
+                                 stringsAsFactors=FALSE)
+
+    response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/items?key=", secret),
+                           config = httr::add_headers(
+                               "Content-Type : application/json",
+                               paste0("Zotero-Write-Token: ", paste(sample(c(0:9, letters, LETTERS), 32, replace=TRUE), collapse=""))),
+                           body = jsonlite::toJSON(x = list(item)))
+# working
+    tibble::tribble(~itemType, ~title, ~tags, ~collections, ~relations,
+                    "book", "titolotest", list(), list(), list())
+    response
 }
