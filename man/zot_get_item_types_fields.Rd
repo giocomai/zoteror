@@ -2,23 +2,25 @@
 % Please edit documentation in R/read.R
 \name{zot_get_item_types_fields}
 \alias{zot_get_item_types_fields}
-\title{Find and show all valid creator types}
+\title{Find and show all valid fields for a given item type}
 \usage{
 zot_get_item_types_fields(item_type = "book", cache = TRUE,
   locale = NULL)
 }
 \arguments{
-\item{cache}{Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.}
+\item{item_type}{Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`}
+
+\item{cache}{Logical, defaults to TRUE. If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.}
 
 \item{locale}{Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"}
 }
 \value{
-A list including all valid creator types for given item type.
+A data frame including all valid fields for given item type.
 }
 \description{
-Find and show all valid creator types
+Find and show all valid fields for a given item type
 }
 \examples{
 
-creator_types <- zot_get_creator_types()
+zot_get_item_types_fields()
 }

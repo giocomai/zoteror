@@ -233,18 +233,19 @@ zot_get_item_template <- function(item_type = "book", cache=TRUE) {
 
 
 
-#' Find and show all valid creator types
+#' Find and show all valid fields for a given item type
 #'
-#' Find and show all valid creator types
+#' Find and show all valid fields for a given item type
 #'
 #'
-#' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
+#' @param item_type Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`
+#' @param cache Logical, defaults to TRUE. If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
 #' @param locale Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"
-#' @return A list including all valid creator types for given item type.
+#' @return A data frame including all valid fields for given item type.
 #' @export
 #' @examples
 #'
-#' creator_types <- zot_get_creator_types()
+#' zot_get_item_types_fields()
 
 zot_get_item_types_fields <- function(item_type = "book",
                                       cache = TRUE,
