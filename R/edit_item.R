@@ -75,15 +75,31 @@ zot_create_csv_template <- function(item_type = "book", cache = TRUE) {
 }
 
 
+#' Create new items from a data frame
+#'
+#' Create new Zotero items from a data frame
+#'
+#' @param item_df A data frame representing new items. Column names must correspond to `zoteroR::zot_get_item_template()` for the given item type.
+#' @param user Zotero userId
+#' @param credentials Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
+#' @return Nothing, used for its side effects (creates new items on Zotero)
+#' @export
+#' @examples
+#'
+#' item <- zot_add_to_collection(id = "<itemId>", collection_id = "<collection_id>")
 
-# If you get error 403 in response, make sure your API have writing access. You can edit your keys from https://www.zotero.org/settings/keys.
-
-zot_create_item <- function(item, user = NULL, credentials = NULL) {
+zot_create_item <- function(item_df,
+                            collection = NULL,
+                            user = NULL,
+                            credentials = NULL) {
     if (is.null(user) == TRUE) {
         user <- zot_options("user")
     }
     if (is.null(credentials) == TRUE) {
         credentials <- zot_options("credentials")
+        if (is.null(credentials)) {
+            credentials <- zot_auth()
+        }
     }
     if (class(credentials)[1]=="OAuth") {
         secret <- credentials$oauthSecret
@@ -91,31 +107,15 @@ zot_create_item <- function(item, user = NULL, credentials = NULL) {
         secret <- credentials
     }
 
-    item <- zot_get_item_template()
+    for (i in 1:nrow(item_df)) {
+        temp_item_df <- item_df %>%
+            slice(i)
 
-    item_classes <- sapply(item, class)
-    which(item_classes=="character")
-
-    item[which(item_classes=="character")]
-    item$creators
-
-    item[["title"]] <- "test"
-    item[["publisher"]] <- "test"
-
-
-    item_df <- tibble::as_tibble(matrix(data = as.character(vector()),
-                                        nrow =  0,
-                                        ncol = length(names(item)),
-                                        dimnames=list(c(), names(item))),
-                                 stringsAsFactors=FALSE)
-
-    response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/items?key=", secret),
-                           config = httr::add_headers(
-                               "Content-Type : application/json",
-                               paste0("Zotero-Write-Token: ", paste(sample(c(0:9, letters, LETTERS), 32, replace=TRUE), collapse=""))),
-                           body = jsonlite::toJSON(x = list(item)))
-# working
-    tibble::tribble(~itemType, ~title, ~tags, ~collections, ~relations,
-                    "book", "titolotest", list(), list(), list())
-    response
+        response <- httr::POST(url = paste0("https://api.zotero.org/users/", user, "/items?key=", secret),
+                               config = httr::add_headers(
+                                   "Content-Type : application/json",
+                                   paste0("Zotero-Write-Token: ", paste(sample(c(0:9, letters, LETTERS), 32, replace=TRUE), collapse=""))),
+                               body = jsonlite::toJSON(x = temp_item_df, auto_unbox = TRUE))
+        message(response)
+    }
 }
