@@ -41,7 +41,7 @@ zot_read_item <- function(id, user = NULL, credentials = NULL) {
 #'
 #' item <- ZotReadChildren()
 
-ZotReadChildren <- function(id, user = NULL, credentials = NULL) {
+zot_read_children <- function(id, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
         user <- zot_options("user")
     }
@@ -69,16 +69,16 @@ ZotReadChildren <- function(id, user = NULL, credentials = NULL) {
 #' @export
 #' @examples
 #'
-#' item <- ZotReadChildren()
+#' item_id <- zot_read_children_id()
 
-ZotReadChildrenId <- function(id, user = NULL, credentials = NULL) {
+zot_read_children_id <- function(id, user = NULL, credentials = NULL) {
     if (is.null(user) == TRUE) {
         user <- zot_options("user")
     }
     if (is.null(credentials) == TRUE) {
         credentials <- zot_options("credentials")
     }
-    ZotReadChildren(id = id, user = user, credentials = credentials)$key
+    zot_read_children(id = id, user = user, credentials = credentials)$key
 }
 
 #' Extract collections in which given item is included
