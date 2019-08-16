@@ -4,12 +4,12 @@
 \alias{zot_convert_creators_to_df}
 \title{Transform a characther vectors of creators (authors, etc.) into a list of properly categorised data frames}
 \usage{
-zot_convert_creators_to_df(creator)
+zot_convert_creators_to_df(creator, creator_type = "author")
 }
 \arguments{
-\item{item_type}{Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`}
+\item{creator}{A character vector (usually, a column in a data frame). Names must be given in the format: "Surname, Name; Surname, Name" (use semicolumn only to separate between multiple authors).}
 
-\item{cache}{Logical, defaults to TRUE. If TRUE, it stores the template in a "zot_cache" folder in the current working directory.}
+\item{creator_type}{Defaults to "author". Must be a character vector of length 1.}
 }
 \value{
 A data frame, with one column for each accepted input for the given item type.
