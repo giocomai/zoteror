@@ -86,9 +86,9 @@ zot_create_csv_template <- function(item_type = "book", cache = TRUE) {
 #' @export
 #' @examples
 #'
-#' item <- zot_add_to_collection(id = "<itemId>", collection_id = "<collection_id>")
+#' item <- zot_create_items(item_df)
 
-zot_create_item <- function(item_df,
+zot_create_items <- function(item_df,
                             collection = NULL,
                             user = NULL,
                             credentials = NULL) {
@@ -105,6 +105,11 @@ zot_create_item <- function(item_df,
         secret <- credentials$oauthSecret
     } else {
         secret <- credentials
+    }
+
+    if (is.null(collection)==FALSE) {
+        item_df <- item_df %>%
+            dplyr::mutate(collections = list(list(zot_create_collection(collection_name = collection, user = user, credentials = credentials))))
     }
 
     for (i in 1:nrow(item_df)) {

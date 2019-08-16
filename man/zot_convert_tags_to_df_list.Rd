@@ -4,7 +4,7 @@
 \alias{zot_convert_tags_to_df_list}
 \title{Transform a characther vectors of creators (authors, etc.) into a list of properly categorised data frames}
 \usage{
-zot_convert_tags_to_df_list(tags, separator = ";")
+zot_convert_tags_to_df_list(tags, separator = "; ")
 }
 \arguments{
 \item{creator}{A character vector (usually, a column in a data frame). Names must be given in the format: "Surname, Name; Surname, Name" (use semicolumn only to separate between multiple authors).}
@@ -19,5 +19,5 @@ Transform a characther vectors of creators (authors, etc.) into a list of proper
 }
 \examples{
 
-zot_convert_tags_to_df(tags = c("economy;history", "economy"))
+zot_convert_tags_to_df(tags = c("economy; history", "economy"))
 }

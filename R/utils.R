@@ -52,9 +52,9 @@ zot_convert_creators_to_df_list <- function(creator,
 #' @export
 #' @examples
 #'
-#' zot_convert_tags_to_df(tags = c("economy;history", "economy"))
+#' zot_convert_tags_to_df(tags = c("economy; history", "economy"))
 
-zot_convert_tags_to_df_list <- function(tags, separator = ";") {
+zot_convert_tags_to_df_list <- function(tags, separator = "; ") {
     purrr::map(.x = tags, .f = function(x) {
         tibble::tibble(tag=as.character(stringr::str_split(string = x,
                                                            pattern = separator,

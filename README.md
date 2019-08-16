@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ZoteroR - Access the Zotero API in R
+# Zoteror - Access the Zotero API in R
 
 This package aims to introduce basic functionalities to access the
 Zotero API. Its main goal at this stage is to have enough function to
@@ -9,19 +9,23 @@ facilitate resizing the storage space used, by ordering items by
 attachment size, and by allowing to add items to a collection if certain
 criteria are met.
 
-It is currently under active development and is not yet fully
-functional.
+It now tenatively allows to create new Zotero items, and to take a csv
+file (or data frame) and import it into Zotero, as long as data are
+properly mapped. `zoteror` has function that facilitate giving to
+tabular data a structure that can properly be read into Zotero. See at
+the bottom of this document for an example \[this is still
+work-in-progress and not functional for all item/attribute types\].
 
 # Install
 
 ``` r
 if(!require(remotes)) install.packages("remotes")
-remotes::install_github(repo = "giocomai/zoteroR")
+remotes::install_github(repo = "giocomai/zoteror")
 ```
 
 # What works at this stage
 
-### Create an API key and store credentials
+## Create an API key and store credentials
 
 ``` r
 credentials <- zot_auth(cache = TRUE)
@@ -47,14 +51,14 @@ run, it is easier to set them with `ZotSetOptions` at the beginning of
 every session:
 
 ``` r
-ZotSetOptions(user = 12345, credentials = "<API>")
+zot_set_options(user = 12345, credentials = "<API>")
 ```
 
 The respective parameters can then be left empty (`NULL`, which is
 default) when calling
 functions.
 
-### Create a collection
+## Create a collection
 
 ``` r
 key <- zot_create_collection(user = 12345, collectionName = "ZoteroR", credentials = "<API>")
@@ -65,7 +69,7 @@ collection with the same name already exists, it does not create a new
 one, but rather outputs the key of the pre-existing collection.
 `CreateZotCollection` requires an API key with write access.
 
-### Extract details of an item
+## Extract details of an item
 
 ``` r
 item <- zot_read_item(id = "<itemId>")
@@ -73,7 +77,7 @@ item <- zot_read_item(id = "<itemId>")
 
 Outputs a list with all available information on the item.
 
-### In which collection(s) is an item?
+## In which collection(s) is an item?
 
 `ZotWhichCollection` allows to find out in which collection is an item.
 If the ID given refers to a ‘child item’ (e.g. a pdf attachment to a
@@ -86,13 +90,13 @@ is\]
 item <- zot_wich_collection(id = "<itemId>")
 ```
 
-### Add an item to a collection
+## Add an item to a collection
 
 ``` r
 zot_add_to_collection(id = "<itemId>", collectionId = "<collectionId>")
 ```
 
-### Calculate size of all locally stored zotero items
+## Calculate size of all locally stored zotero items
 
 ``` r
 size <- zot_size(path = "/home/user/.mozilla/firefox/XXXXXX.default/zotero/storage")
@@ -102,10 +106,10 @@ It requires the full path to the local Zotero folder. Outputs size of
 stored items in bytes and in human-readable
 Mb.
 
-## Use case: add all items with attachments bigger than 5MB to a collection
+# Use case: add all items with attachments bigger than 5MB to a collection
 
 ``` r
-library("zoteroR")
+library("zoteror")
 zot_set_options(user = 12345, credentials = "<API>") # insert user id and API credentials
 size <- zot_size(path = "/home/g/.mozilla/firefox/XXXXXXX.default/zotero/storage") # full path to Zotero storage folder
 
@@ -127,4 +131,102 @@ allow much more efficient ways of bulk changing items; when the package
 will work more efficiently, it will still allow to keep the process
 artificially slow in order to monitor potential oddities.
 
-# Create new item
+# Use case: Import tabular data into zoteror
+
+In order to make sure your data match Zotero fields for a given item
+type, you can first create a csv template for the given type and paste
+your data there. Not all columns need to be filled.
+
+``` r
+library(zoteror)
+zot_create_csv_template(item_type = "book", cache = FALSE) 
+#> # A tibble: 0 x 27
+#> # … with 27 variables: itemType <chr>, title <chr>, creators <chr>,
+#> #   abstractNote <chr>, series <chr>, seriesNumber <chr>, volume <chr>,
+#> #   numberOfVolumes <chr>, edition <chr>, place <chr>, publisher <chr>,
+#> #   date <chr>, numPages <chr>, language <chr>, ISBN <chr>,
+#> #   shortTitle <chr>, url <chr>, accessDate <chr>, archive <chr>,
+#> #   archiveLocation <chr>, libraryCatalog <chr>, callNumber <chr>,
+#> #   rights <chr>, extra <chr>, tags <chr>, collections <chr>,
+#> #   relations <chr>
+```
+
+If you enable `cache=TRUE` it will store a csv file in the
+`zot_csv_templates` subf-folder of the current working directory.
+
+Translation in other languages of all fields are available with:
+
+``` r
+zot_get_item_types_fields(item_type = "book",
+                          cache = "FALSE",
+                          locale = "it")
+#>              field                 localized
+#> 1            title                    Titolo
+#> 2     abstractNote                  Abstract
+#> 3           series                     Serie
+#> 4     seriesNumber        Numero della serie
+#> 5           volume                    Volume
+#> 6  numberOfVolumes          Numero di volumi
+#> 7          edition                  Edizione
+#> 8            place         Luogo di edizione
+#> 9        publisher                   Editore
+#> 10            date                      Data
+#> 11        numPages               # di Pagine
+#> 12        language                    Lingua
+#> 13            ISBN                      ISBN
+#> 14      shortTitle         Titolo abbreviato
+#> 15             url                       URL
+#> 16      accessDate                Consultato
+#> 17         archive                  Archivio
+#> 18 archiveLocation  Collocazione in archivio
+#> 19  libraryCatalog Catalogo della biblioteca
+#> 20      callNumber                 Segnatura
+#> 21          rights                   Diritti
+#> 22           extra                     Extra
+```
+
+Zotero does not store data in a tabular format, so some transformation
+will be necessary.
+
+For example, if we have data in this format:
+
+``` r
+europe_books <- 
+    tibble::tribble(~itemType, ~creators, ~title, ~tags,
+                    "book", "Spinelli, Altiero; Rossi, Ernesto", "Il Manifesto di Ventotene", "europe; history")
+
+europe_books
+#> # A tibble: 1 x 4
+#>   itemType creators                     title                 tags         
+#>   <chr>    <chr>                        <chr>                 <chr>        
+#> 1 book     Spinelli, Altiero; Rossi, E… Il Manifesto di Vent… europe; hist…
+```
+
+We need first to transform them in a format that fully mirrors Zotero’s
+data structure:
+
+``` r
+library(dplyr)
+
+europe_books_zot <- 
+    europe_books %>% 
+    mutate(creators = zot_convert_creators_to_df_list(creator = creators), 
+           tags = zot_convert_tags_to_df_list(tags = tags))
+
+europe_books_zot
+#> # A tibble: 1 x 4
+#>   itemType creators         title                     tags            
+#>   <chr>    <list>           <chr>                     <list>          
+#> 1 book     <tibble [2 × 3]> Il Manifesto di Ventotene <tibble [2 × 1]>
+```
+
+Having previously set your credentials, you can now upload it to your
+Zotero accounts.
+
+``` r
+zot_create_items(item_df = europe_books_zot,
+                 collection = "europe")
+```
+
+\[full support for all data types and more appropriate output will be
+added in a future version\]
