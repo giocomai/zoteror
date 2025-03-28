@@ -34,10 +34,10 @@ credentials <- zot_auth(cache = TRUE)
 The verification code that appears at the end of the URL after
 authorization in browser should be input as verification PIN. If the
 parameter store is enabled - AuthZot(cache=TRUE) - `zoteror` stores the
-credentials in a local file called “zotero\_credentials.rds”, which
+credentials in a local file called “zotero_credentials.rds”, which
 should be considered confidential since it provides access to a given
-Zotero account. If a pre-existing “zotero\_credentials.rds” exists, it
-is loaded automatically.
+Zotero account. If a pre-existing “zotero_credentials.rds” exists, it is
+loaded automatically.
 
 N.B. At this stage, it may be easier to actually login on Zotero, go to
 the (Feeds/API page in
@@ -82,8 +82,7 @@ Outputs a list with all available information on the item.
 item. If the ID given refers to a ‘child item’ (e.g. a pdf attachment to
 a journal article), the function looks for the collection(s) in which
 the parent item is included. \[attachments have separate IDs, and are
-thus to be found in a collection only if the ‘parent item’
-is\]
+thus to be found in a collection only if the ‘parent item’ is\]
 
 ``` r
 item <- zot_wich_collection(id = "<item_id>")
@@ -103,8 +102,7 @@ size <- zot_size(path = "/home/user/.zotero/XXXXXX.default/zotero/storage")
 ```
 
 It requires the full path to the local Zotero folder. Outputs size of
-stored items in bytes and in human-readable
-Mb.
+stored items in bytes and in human-readable Mb.
 
 # Use case: add all items with attachments bigger than 5MB to a collection
 
@@ -122,7 +120,7 @@ bigIDs <- size %>%
 big_collection_id <- zot_create_collection(collectionName = "plus5") #creates collection "plus5", and if already existing simply outputs its key
 
 for (i in bigIDs) {
-    try(zot_add_to_collection(id = bigIDs$ID[i]i,
+    try(zot_add_to_collection(id = bigIDs$ID[i],
                               collection_id = big_collection_id))
 }
 ```
@@ -145,8 +143,15 @@ your data there. Not all columns need to be filled.
 ``` r
 library(zoteror)
 zot_create_csv_template(item_type = "book", cache = FALSE) 
-#> # A tibble: 0 x 27
-#> # … with 27 variables: itemType <chr>, title <chr>, creators <chr>,
+#> Warning: The `path` argument of `write_csv()` is deprecated as of readr 1.4.0.
+#> ℹ Please use the `file` argument instead.
+#> ℹ The deprecated feature was likely used in the zoteror package.
+#>   Please report the issue to the authors.
+#> This warning is displayed once every 8 hours.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
+#> # A tibble: 0 × 27
+#> # ℹ 27 variables: itemType <chr>, title <chr>, creators <chr>,
 #> #   abstractNote <chr>, series <chr>, seriesNumber <chr>, volume <chr>,
 #> #   numberOfVolumes <chr>, edition <chr>, place <chr>, publisher <chr>,
 #> #   date <chr>, numPages <chr>, language <chr>, ISBN <chr>, shortTitle <chr>,
@@ -178,13 +183,13 @@ zot_get_item_types_fields(item_type = "book",
 #> 11        numPages               # di Pagine
 #> 12        language                    Lingua
 #> 13            ISBN                      ISBN
-#> 14      shortTitle         Titolo abbreviato
+#> 14      shortTitle              Titolo breve
 #> 15             url                       URL
 #> 16      accessDate                Consultato
 #> 17         archive                  Archivio
-#> 18 archiveLocation  Collocazione in archivio
+#> 18 archiveLocation     Posizione in archivio
 #> 19  libraryCatalog Catalogo della biblioteca
-#> 20      callNumber                 Segnatura
+#> 20      callNumber              Collocazione
 #> 21          rights                   Diritti
 #> 22           extra                     Extra
 ```
@@ -200,10 +205,10 @@ europe_books <-
                     "book", "Spinelli, Altiero; Rossi, Ernesto", "Il Manifesto di Ventotene", "europe; history")
 
 europe_books
-#> # A tibble: 1 x 4
-#>   itemType creators                        title                   tags         
-#>   <chr>    <chr>                           <chr>                   <chr>        
-#> 1 book     Spinelli, Altiero; Rossi, Erne… Il Manifesto di Ventot… europe; hist…
+#> # A tibble: 1 × 4
+#>   itemType creators                          title                     tags     
+#>   <chr>    <chr>                             <chr>                     <chr>    
+#> 1 book     Spinelli, Altiero; Rossi, Ernesto Il Manifesto di Ventotene europe; …
 ```
 
 We need first to transform them in a format that fully mirrors Zotero’s
@@ -216,9 +221,18 @@ europe_books_zot <-
     europe_books %>% 
     mutate(creators = zot_convert_creators_to_df_list(creator = creators), 
            tags = zot_convert_tags_to_df_list(tags = tags))
+#> Warning: There was 1 warning in `mutate()`.
+#> ℹ In argument: `creators = zot_convert_creators_to_df_list(creator =
+#>   creators)`.
+#> Caused by warning:
+#> ! The `x` argument of `as_tibble.matrix()` must have unique column names if
+#>   `.name_repair` is omitted as of tibble 2.0.0.
+#> ℹ Using compatibility `.name_repair`.
+#> ℹ The deprecated feature was likely used in the purrr package.
+#>   Please report the issue at <https://github.com/tidyverse/purrr/issues>.
 
 europe_books_zot
-#> # A tibble: 1 x 4
+#> # A tibble: 1 × 4
 #>   itemType creators         title                     tags            
 #>   <chr>    <list>           <chr>                     <list>          
 #> 1 book     <tibble [2 × 3]> Il Manifesto di Ventotene <tibble [2 × 1]>

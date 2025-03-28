@@ -20,6 +20,7 @@ A list including all available details on a given item.
 Add item to a collection
 }
 \examples{
-
+\dontrun{
 item <- zot_add_to_collection(id = "<itemId>", collection_id = "<collection_id>")
+}
 }

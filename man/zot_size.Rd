@@ -2,20 +2,23 @@
 % Please edit documentation in R/size.R
 \name{zot_size}
 \alias{zot_size}
-\title{Find size of zotero objects stored locally}
+\title{Find size of Zotero objects stored locally}
 \usage{
 zot_size(path)
 }
 \arguments{
-\item{path}{Path to local Zotero storage sub-folde, e.g. "/home/user/.mozilla/firefox/mdk7yirc.default/zotero/storage"}
+\item{path}{Path to local Zotero storage sub-folder, e.g.
+"/home/user/.mozilla/firefox/mdk7yirc.default/zotero/storage"}
 }
 \value{
-A data.frame (tibble) with ID and size of each item present in the local storage.
+A data.frame (tibble) with ID and size of each item present in the
+  local storage.
 }
 \description{
-Find size of zotero objects stored locally
+Find size of Zotero objects stored locally
 }
 \examples{
-
+\dontrun{
 size <- zot_size()
+}
 }

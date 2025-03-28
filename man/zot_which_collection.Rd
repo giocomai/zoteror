@@ -18,6 +18,7 @@ A charachter vector including all categories in which given item is included.
 Extract collections in which given item is included
 }
 \examples{
-
+\dontrun{
 categories <- zot_which_collection(item = "X1X2X3")
+}
 }

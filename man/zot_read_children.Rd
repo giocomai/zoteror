@@ -20,6 +20,7 @@ A data.frame including details on all children of a given parent item.
 Read details of all children of a Zotero item
 }
 \examples{
-
-item <- ZotReadChildren()
+\dontrun{
+item <- zot_read_children(id = "<ID>")
+}
 }

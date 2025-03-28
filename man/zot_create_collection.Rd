@@ -11,18 +11,26 @@ zot_create_collection(collection_name, user = NULL, credentials = NULL)
 
 \item{user}{Zotero userId}
 
-\item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
+\item{credentials}{Either an R object created with AuthZot(store = TRUE), or
+an API secret key with write access created at
+https://www.zotero.org/settings/keys}
 }
 \value{
-The key of the newly created collection (or of the pre-existing collection, if already one with the same name exists) as a character vector
+The key of the newly created collection (or of the pre-existing
+  collection, if already one with the same name exists) as a character vector
 }
 \description{
-Create a collection in Zotero. If a collection by the same name exists, it does not create a new one, but rather outputs the id of that collection.
+Create a collection in Zotero. If a collection by the same name exists, it
+does not create a new one, but rather outputs the id of that collection.
 }
 \details{
 Creating a collection needs an API with write access
 }
 \examples{
-
-key <- zot_create_collection(user = 12345, collection_name = "ZoteroRtest", credentials = "<API>")
+\dontrun{
+key <- zot_create_collection(
+  user = 12345, collection_name = "ZoteroRtest",
+  credentials = "<API>"
+)
+}
 }

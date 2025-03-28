@@ -7,11 +7,14 @@
 zot_create_items(item_df, collection = NULL, user = NULL, credentials = NULL)
 }
 \arguments{
-\item{item_df}{A data frame representing new items. Column names must correspond to `zoteroR::zot_get_item_template()` for the given item type.}
+\item{item_df}{A data frame representing new items. Column names must
+correspond to [zot_get_item_template()] for the given item type.}
 
 \item{user}{Zotero userId}
 
-\item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
+\item{credentials}{Either an R object created with [zot_auth()], or
+an API secret key with write access created at
+\url{https://www.zotero.org/settings/keys)}}
 }
 \value{
 Nothing, used for its side effects (creates new items on Zotero)
@@ -20,6 +23,7 @@ Nothing, used for its side effects (creates new items on Zotero)
 Create new Zotero items from a data frame
 }
 \examples{
-
+\dontrun{
 item <- zot_create_items(item_df)
+}
 }

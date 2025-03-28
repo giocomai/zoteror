@@ -19,5 +19,5 @@ Transform a characther vectors of creators (authors, etc.) into a list of proper
 }
 \examples{
 
-zot_convert_tags_to_df(tags = c("economy; history", "economy"))
+zot_convert_tags_to_df_list(tags = c("economy; history", "economy"))
 }

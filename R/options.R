@@ -14,8 +14,8 @@ zot_options <- settings::options_manager(user = NULL, credentials = NULL)
 #' @export
 #' @examples
 #' zot_set_options(user = 12345, credentials = "<API>")
-zot_set_options <- function(...){
-    # protect against the use of reserved words.
-    settings::stop_if_reserved(...)
-    zot_options(...)
+zot_set_options <- function(...) {
+  # protect against the use of reserved words.
+  settings::stop_if_reserved(...)
+  zot_options(...)
 }

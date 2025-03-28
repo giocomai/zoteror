@@ -11,7 +11,9 @@ zot_read_children_id(id, user = NULL, credentials = NULL)
 
 \item{user}{Zotero userId}
 
-\item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
+\item{credentials}{Either an R object created with AuthZot(store = TRUE), or
+an API secret key with write access created at
+https://www.zotero.org/settings/keys}
 }
 \value{
 A vector including the ID of all children
@@ -20,6 +22,7 @@ A vector including the ID of all children
 Read IDs of all children of a Zotero item
 }
 \examples{
-
-item_id <- zot_read_children_id()
+\dontrun{
+item_id <- zot_read_children_id(id = "<ID>")
+}
 }

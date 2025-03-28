@@ -21,7 +21,7 @@ It now tenatively allows to create new Zotero items, and to take a csv file (or 
 # Install
 
 ```{r, echo=TRUE, eval=FALSE}
-if(!require("remotes")) install.packages("remotes")
+if (!require("remotes")) install.packages("remotes")
 remotes::install_github(repo = "giocomai/zoteror")
 ```
 
@@ -46,14 +46,13 @@ The respective parameters can then be left empty (`NULL`, which is default) when
 
 ## Create a collection
 ```{r, echo=TRUE, eval=FALSE}
-key <- zot_create_collection(collection_name = "zoteror") 
+key <- zot_create_collection(collection_name = "zoteror")
 ```
 Creates a new collection by the given name, and outputs its key. If a collection with the same name already exists, it does not create a new one, but rather outputs the key of the pre-existing collection. `zot_create_collection()` requires an API key with write access.
 
 ## Extract details of an item
 ```{r, echo=TRUE, eval=FALSE}
 item <- zot_read_item(id = "<item_id>")
-
 ```
 Outputs a list with all available information on the item. 
 
@@ -89,16 +88,17 @@ zot_set_options(user = 12345, credentials = "<API>") # insert user id and API cr
 size <- zot_size(path = "/home/user/.zotero/XXXXXX.default/zotero/storage") # full path to Zotero storage folder
 
 bigIDs <- size %>%
-  filter(Size>5000000) %>%
+  filter(Size > 5000000) %>%
   pull(ID) # filters items larger than 5MB
 
-big_collection_id <- zot_create_collection(collectionName = "plus5") #creates collection "plus5", and if already existing simply outputs its key
+big_collection_id <- zot_create_collection(collectionName = "plus5") # creates collection "plus5", and if already existing simply outputs its key
 
 for (i in bigIDs) {
-    try(zot_add_to_collection(id = bigIDs$ID[i]i,
-                              collection_id = big_collection_id))
+  try(zot_add_to_collection(
+    id = bigIDs$ID[i],
+    collection_id = big_collection_id
+  ))
 }
-
 ```
 This adds all items larger tan 5Mb to a collection called "plus5". `zot_add_to_collection()` is inside `try` to prevent timeout and other errors to stop the script. While running the script outputs the title of items being added to the collection. Currently it goes quite slowly, thus giving time to stop the script if something odd happens. API would allow much more efficient ways of bulk changing items; when the package will work more efficiently, it will still allow to keep the process artificially slow in order to monitor potential oddities.
 
@@ -108,7 +108,7 @@ In order to make sure your data match Zotero fields for a given item type, you c
 
 ```{r eval=TRUE}
 library(zoteror)
-zot_create_csv_template(item_type = "book", cache = FALSE) 
+zot_create_csv_template(item_type = "book", cache = FALSE)
 ```
 
 If you enable `cache=TRUE` it will store a csv file in the `zot_csv_templates` sub-folder of the current working directory.
@@ -116,9 +116,11 @@ If you enable `cache=TRUE` it will store a csv file in the `zot_csv_templates` s
 Translation in other languages of all fields are available with:
 
 ```{r}
-zot_get_item_types_fields(item_type = "book",
-                          cache = "FALSE",
-                          locale = "it")
+zot_get_item_types_fields(
+  item_type = "book",
+  cache = "FALSE",
+  locale = "it"
+)
 ```
 
 Internally, Zotero does not store data in a tabular format, so some transformation will be necessary.
@@ -126,9 +128,11 @@ Internally, Zotero does not store data in a tabular format, so some transformati
 For example, if we have data in this format:
 
 ```{r}
-europe_books <- 
-    tibble::tribble(~itemType, ~creators, ~title, ~tags,
-                    "book", "Spinelli, Altiero; Rossi, Ernesto", "Il Manifesto di Ventotene", "europe; history")
+europe_books <-
+  tibble::tribble(
+    ~itemType, ~creators, ~title, ~tags,
+    "book", "Spinelli, Altiero; Rossi, Ernesto", "Il Manifesto di Ventotene", "europe; history"
+  )
 
 europe_books
 ```
@@ -138,20 +142,23 @@ We need first to transform them in a format that fully mirrors Zotero's data str
 ```{r message=FALSE}
 library(dplyr)
 
-europe_books_zot <- 
-    europe_books %>% 
-    mutate(creators = zot_convert_creators_to_df_list(creator = creators), 
-           tags = zot_convert_tags_to_df_list(tags = tags))
+europe_books_zot <-
+  europe_books %>%
+  mutate(
+    creators = zot_convert_creators_to_df_list(creator = creators),
+    tags = zot_convert_tags_to_df_list(tags = tags)
+  )
 
 europe_books_zot
-
 ```
 
 Having previously set your credentials, you can now upload it to your Zotero accounts.
 
 ```{r eval=FALSE}
-zot_create_items(item_df = europe_books_zot,
-                 collection = "europe")
+zot_create_items(
+  item_df = europe_books_zot,
+  collection = "europe"
+)
 ```
 
 [full support for all data types and more appropriate output will be added in a future version]

@@ -5,26 +5,36 @@
 #'
 #' @param id Id code of a zotero item
 #' @param user Zotero userId
-#' @param credentials Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
+#' @param credentials Either an R object created with AuthZot(store = TRUE), or
+#'   an API secret key with write access created at
+#'   https://www.zotero.org/settings/keys
 #' @return A list including all available details on a given item.
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' item <- zot_read_item()
-
+#' }
 zot_read_item <- function(id, user = NULL, credentials = NULL) {
-    if (is.null(user) == TRUE) {
-        user <- zot_options("user")
-    }
-    if (is.null(credentials) == TRUE) {
-        credentials <- zot_options("credentials")
-    }
-    if (class(credentials)[1]=="OAuth") {
-        secret <- credentials$oauthSecret
-    } else {
-        secret <- credentials
-    }
-    jsonlite::fromJSON(txt = paste0("https://api.zotero.org/users/", user, "/items/", id, "?key=", secret))
+  if (is.null(user) == TRUE) {
+    user <- zot_options("user")
+  }
+  if (is.null(credentials) == TRUE) {
+    credentials <- zot_options("credentials")
+  }
+  if (class(credentials)[1] == "OAuth") {
+    secret <- credentials$oauthSecret
+  } else {
+    secret <- credentials
+  }
+  jsonlite::fromJSON(
+    txt = paste0(
+      "https://api.zotero.org/users/",
+      user, "/items/",
+      id,
+      "?key=",
+      secret
+    )
+  )
 }
 
 #' Read details of all children of a Zotero item
@@ -38,22 +48,33 @@ zot_read_item <- function(id, user = NULL, credentials = NULL) {
 #' @return A data.frame including details on all children of a given parent item.
 #' @export
 #' @examples
-#'
-#' item <- ZotReadChildren()
-
+#' \dontrun{
+#' item <- zot_read_children(id = "<ID>")
+#' }
 zot_read_children <- function(id, user = NULL, credentials = NULL) {
-    if (is.null(user) == TRUE) {
-        user <- zot_options("user")
-    }
-    if (is.null(credentials) == TRUE) {
-        credentials <- zot_options("credentials")
-    }
-    if (class(credentials)[1]=="OAuth") {
-        secret <- credentials$oauthSecret
-    } else {
-        secret <- credentials
-    }
-    jsonlite::fromJSON(txt = paste0("https://api.zotero.org/users/", user, "/items/", id, "/children", "?key=", secret), flatten = TRUE)
+  if (is.null(user) == TRUE) {
+    user <- zot_options("user")
+  }
+  if (is.null(credentials) == TRUE) {
+    credentials <- zot_options("credentials")
+  }
+  if (class(credentials)[1] == "OAuth") {
+    secret <- credentials$oauthSecret
+  } else {
+    secret <- credentials
+  }
+  jsonlite::fromJSON(
+    txt = paste0(
+      "https://api.zotero.org/users/",
+      user,
+      "/items/",
+      id,
+      "/children",
+      "?key=",
+      secret
+    ),
+    flatten = TRUE
+  )
 }
 
 
@@ -64,21 +85,23 @@ zot_read_children <- function(id, user = NULL, credentials = NULL) {
 #'
 #' @param id Id code of a zotero item
 #' @param user Zotero userId
-#' @param credentials Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
+#' @param credentials Either an R object created with AuthZot(store = TRUE), or
+#'   an API secret key with write access created at
+#'   https://www.zotero.org/settings/keys
 #' @return A vector including the ID of all children
 #' @export
 #' @examples
-#'
-#' item_id <- zot_read_children_id()
-
+#' \dontrun{
+#' item_id <- zot_read_children_id(id = "<ID>")
+#' }
 zot_read_children_id <- function(id, user = NULL, credentials = NULL) {
-    if (is.null(user) == TRUE) {
-        user <- zot_options("user")
-    }
-    if (is.null(credentials) == TRUE) {
-        credentials <- zot_options("credentials")
-    }
-    zot_read_children(id = id, user = user, credentials = credentials)$key
+  if (is.null(user) == TRUE) {
+    user <- zot_options("user")
+  }
+  if (is.null(credentials) == TRUE) {
+    credentials <- zot_options("credentials")
+  }
+  zot_read_children(id = id, user = user, credentials = credentials)$key
 }
 
 #' Extract collections in which given item is included
@@ -91,25 +114,25 @@ zot_read_children_id <- function(id, user = NULL, credentials = NULL) {
 #' @return A charachter vector including all categories in which given item is included.
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' categories <- zot_which_collection(item = "X1X2X3")
-
+#' }
 zot_which_collection <- function(id, user = NULL, credentials = NULL) {
-    if (is.null(user) == TRUE) {
-        user <- zot_options("user")
-    }
-    if (is.null(credentials) == TRUE) {
-        credentials <- zot_options("credentials")
-    }
-    if (class(credentials)[1]=="OAuth") {
-        secret <- credentials$oauthSecret
-    } else {
-        secret <- credentials
-    }
+  if (is.null(user) == TRUE) {
+    user <- zot_options("user")
+  }
+  if (is.null(credentials) == TRUE) {
+    credentials <- zot_options("credentials")
+  }
+  if (class(credentials)[1] == "OAuth") {
+    secret <- credentials$oauthSecret
+  } else {
+    secret <- credentials
+  }
   item <- zot_read_item(id = id, user = user, credentials = secret)
-  if (is.null(item$data$collections)==TRUE) {
-      id <- item$data$parentItem
-      item <- zot_read_item(id = id, user = user, credentials = secret)
+  if (is.null(item$data$collections) == TRUE) {
+    id <- item$data$parentItem
+    item <- zot_read_item(id = id, user = user, credentials = secret)
   }
   item$data$collections
 }
@@ -119,22 +142,34 @@ zot_which_collection <- function(id, user = NULL, credentials = NULL) {
 #' Find and show all valid item types
 #'
 #'
-#' @param item_type Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`
-#' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
-#' @param locale Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"
-#' @return A charachter vector including all categories in which given item is included.
+#' @param item_type Defaults to "book". It must correspond to a valid item type.
+#'   You can chech which item types are valid with the function
+#'   `zot_get_item_types()`
+#' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid
+#'   item types in a "zot_cache" folder in the current working directory.
+#' @param locale Defaults to English. If given, it should correspond to a
+#'   language code such as "it" or "fr-FR"
+#' @return A charachter vector including all categories in which given item is
+#'   included.
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' item_types <- zot_get_item_types()
-
+#' }
 zot_get_item_types <- function(cache = TRUE, locale = NULL) {
   if (cache == TRUE) {
     dir.create(path = "zot_cache", showWarnings = FALSE)
-    if (is.null(locale)==TRUE) {
+    if (is.null(locale) == TRUE) {
       file_location <- fs::path("zot_cache", "item_types.rds")
     } else {
-      file_location <- fs::path("zot_cache", paste0("item_types-", locale, ".rds"))
+      file_location <- fs::path(
+        "zot_cache",
+        paste0(
+          "item_types-",
+          locale,
+          ".rds"
+        )
+      )
     }
 
     if (fs::file_exists(file_location)) {
@@ -162,20 +197,22 @@ zot_get_item_types <- function(cache = TRUE, locale = NULL) {
 #' Find and show all valid creator types
 #'
 #'
-#' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
-#' @param locale Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"
+#' @param cache Logical, defaults to TRUE.  If TRUE, it stores the list of valid
+#'   item types in a "zot_cache" folder in the current working directory.
+#' @param locale Defaults to English. If given, it should correspond to a
+#'   language code such as "it" or "fr-FR"
 #' @return A list including all valid creator types for given item type.
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' creator_types <- zot_get_creator_types()
-
+#' }
 zot_get_creator_types <- function(item_type = "book",
                                   cache = TRUE,
                                   locale = NULL) {
   if (cache == TRUE) {
     fs::dir_create(path = "zot_cache")
-    if (is.null(locale)==TRUE) {
+    if (is.null(locale) == TRUE) {
       file_location <- fs::path("zot_cache", paste0(item_type, "_creator_types.rds"))
     } else {
       file_location <- fs::path("zot_cache", paste0(item_type, "_creator_types", locale, ".rds"))
@@ -206,15 +243,18 @@ zot_get_creator_types <- function(item_type = "book",
 #' Get an item template for a valid item type
 #'
 #'
-#' @param item_type Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`
-#' @param cache Logical, defaults to TRUE. If TRUE, it stores the template in a "zot_cache" folder in the current working directory.
+#' @param item_type Defaults to "book". It must correspond to a valid item type.
+#'   You can chech which item types are valid with the function
+#'   `zot_get_item_types()`
+#' @param cache Logical, defaults to TRUE. If TRUE, it stores the template in a
+#'   "zot_cache" folder in the current working directory.
 #' @return A list. A template for creating items of the given item_type.
 #' @export
 #' @examples
-#'
-#' item_types <- zot_get_item_types()
-
-zot_get_item_template <- function(item_type = "book", cache=TRUE) {
+#' \dontrun{
+#' item_templates <- zot_get_item_template()
+#' }
+zot_get_item_template <- function(item_type = "book", cache = TRUE) {
   if (cache == TRUE) {
     dir.create(path = "zot_cache", showWarnings = FALSE)
     template_location <- file.path("zot_cache", paste0(paste("item", item_type, "template", sep = "_"), ".rds"))
@@ -238,21 +278,25 @@ zot_get_item_template <- function(item_type = "book", cache=TRUE) {
 #' Find and show all valid fields for a given item type
 #'
 #'
-#' @param item_type Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`
-#' @param cache Logical, defaults to TRUE. If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.
-#' @param locale Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"
+#' @param item_type Defaults to "book". It must correspond to a valid item type.
+#'   You can chech which item types are valid with the function
+#'   `zot_get_item_types()`
+#' @param cache Logical, defaults to TRUE. If TRUE, it stores the list of valid
+#'   item types in a "zot_cache" folder in the current working directory.
+#' @param locale Defaults to English. If given, it should correspond to a
+#'   language code such as "it" or "fr-FR"
 #' @return A data frame including all valid fields for given item type.
 #' @export
 #' @examples
-#'
+#' \dontrun{
 #' zot_get_item_types_fields()
-
+#' }
 zot_get_item_types_fields <- function(item_type = "book",
                                       cache = TRUE,
                                       locale = NULL) {
   if (cache == TRUE) {
     fs::dir_create(path = "zot_cache")
-    if (is.null(locale)==TRUE) {
+    if (is.null(locale) == TRUE) {
       file_location <- fs::path("zot_cache", paste0(item_type, "_item_types_fields.rds"))
     } else {
       file_location <- fs::path("zot_cache", paste0(item_type, "_item_types_fields", locale, ".rds"))

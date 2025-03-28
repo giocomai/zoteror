@@ -7,9 +7,11 @@
 zot_get_creator_types(item_type = "book", cache = TRUE, locale = NULL)
 }
 \arguments{
-\item{cache}{Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.}
+\item{cache}{Logical, defaults to TRUE.  If TRUE, it stores the list of valid
+item types in a "zot_cache" folder in the current working directory.}
 
-\item{locale}{Defaults to English. If given, it should correspond to a language code such as "it" or "fr-FR"}
+\item{locale}{Defaults to English. If given, it should correspond to a
+language code such as "it" or "fr-FR"}
 }
 \value{
 A list including all valid creator types for given item type.
@@ -18,6 +20,7 @@ A list including all valid creator types for given item type.
 Find and show all valid creator types
 }
 \examples{
-
+\dontrun{
 creator_types <- zot_get_creator_types()
+}
 }

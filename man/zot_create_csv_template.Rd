@@ -7,12 +7,16 @@
 zot_create_csv_template(item_type = "book", cache = TRUE)
 }
 \arguments{
-\item{item_type}{Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`}
+\item{item_type}{Defaults to "book". It must correspond to a valid item type.
+You can chech which item types are valid with the function
+`zot_get_item_types()`}
 
-\item{cache}{Logical, defaults to TRUE. If TRUE, it stores the template in a "zot_cache" folder in the current working directory.}
+\item{cache}{Logical, defaults to TRUE. If TRUE, it stores the template in a
+"zot_cache" folder in the current working directory.}
 }
 \value{
-A data frame, with one column for each accepted input for the given item type.
+A data frame, with one column for each accepted input for the given
+  item type.
 }
 \description{
 Create a template to facilitate import of csv files
@@ -20,4 +24,5 @@ Create a template to facilitate import of csv files
 \examples{
 
 book_template_df <- zot_create_csv_template(item_type = "book")
+book_template_df
 }
