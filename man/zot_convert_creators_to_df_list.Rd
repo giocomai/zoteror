@@ -4,8 +4,12 @@
 \alias{zot_convert_creators_to_df_list}
 \title{Transform a characther vectors of creators (authors, etc.) into a list of properly categorised data frames}
 \usage{
-zot_convert_creators_to_df_list(creator, creator_type = "author",
-  separator_multiple_authors = "; ", separator_surname_name = ", ")
+zot_convert_creators_to_df_list(
+  creator,
+  creator_type = "author",
+  separator_multiple_authors = "; ",
+  separator_surname_name = ", "
+)
 }
 \arguments{
 \item{creator}{A character vector (usually, a column in a data frame). Names must be given in the format: "Surname, Name; Surname, Name" (use semicolumn only to separate between multiple authors).}

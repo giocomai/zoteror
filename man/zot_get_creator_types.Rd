@@ -4,8 +4,7 @@
 \alias{zot_get_creator_types}
 \title{Find and show all valid creator types}
 \usage{
-zot_get_creator_types(item_type = "book", cache = TRUE,
-  locale = NULL)
+zot_get_creator_types(item_type = "book", cache = TRUE, locale = NULL)
 }
 \arguments{
 \item{cache}{Logical, defaults to TRUE.  If TRUE, it stores the list of valid item types in a "zot_cache" folder in the current working directory.}

@@ -4,8 +4,7 @@
 \alias{zot_add_to_collection}
 \title{Add item to a collection}
 \usage{
-zot_add_to_collection(id, collection_id, user = NULL,
-  credentials = NULL)
+zot_add_to_collection(id, collection_id, user = NULL, credentials = NULL)
 }
 \arguments{
 \item{id}{Id code of a zotero item}

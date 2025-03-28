@@ -4,8 +4,7 @@
 \alias{zot_create_items}
 \title{Create new items from a data frame}
 \usage{
-zot_create_items(item_df, collection = NULL, user = NULL,
-  credentials = NULL)
+zot_create_items(item_df, collection = NULL, user = NULL, credentials = NULL)
 }
 \arguments{
 \item{item_df}{A data frame representing new items. Column names must correspond to `zoteroR::zot_get_item_template()` for the given item type.}

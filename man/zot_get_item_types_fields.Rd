@@ -4,8 +4,7 @@
 \alias{zot_get_item_types_fields}
 \title{Find and show all valid fields for a given item type}
 \usage{
-zot_get_item_types_fields(item_type = "book", cache = TRUE,
-  locale = NULL)
+zot_get_item_types_fields(item_type = "book", cache = TRUE, locale = NULL)
 }
 \arguments{
 \item{item_type}{Defaults to "book". It must correspond to a valid item type. You can chech which item types are valid with the function `zot_get_item_types()`}
