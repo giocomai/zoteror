@@ -9,14 +9,17 @@ zot_set_options(...)
 \arguments{
 \item{user}{A Zotero userId.}
 
-\item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
+\item{credentials}{Either an R object created with AuthZot(store = TRUE), or
+an API secret key with write access created at
+[https://www.zotero.org/settings/keys]}
 }
 \value{
 Nothing. Used for its side effects (stores settings).
 }
 \description{
-It allows to preliminary store options frequently used by 'zoteroR', thus removing the requirement to specify them each time a function is called.
+It allows to preliminary store options frequently used by 'zoteroR', thus
+removing the requirement to specify them each time a function is called.
 }
 \examples{
-zot_set_options(user = 12345, credentials = <API>)
+zot_set_options(user = 12345, credentials = "<API>")
 }
