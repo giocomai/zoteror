@@ -11,7 +11,7 @@ zot_read_children_id(id, user = NULL, credentials = NULL)
 
 \item{user}{Zotero userId}
 
-\item{credentials}{Either an R object created with AuthZot(store = TRUE), or
+\item{credentials}{Either an R object created with zot_auth(store = TRUE), or
 an API secret key with write access created at
 https://www.zotero.org/settings/keys}
 }

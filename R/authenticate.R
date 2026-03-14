@@ -3,17 +3,17 @@
 #' Authenticate to a Zotero account (get keys)
 #'
 #' The verification code that appears at the end of the URL after authorization
-#' in browser should be input as verification PIN. If the parametere cache is
-#' enabled - zot_auth(cache=TRUE) - zoteroR stores the credentials in a local
-#' file called "zotero_credentials.rds", which should be considered confidential
+#' in browser should be input as verification PIN. If the parameter cache is
+#' enabled - `zot_auth(cache=TRUE)` - `zoteror` stores the credentials in a local
+#' file called `zotero_credentials.rds`, which should be considered confidential
 #' since it provides access to a given Zotero account. If a pre-existing
-#' "zotero_credentials.rds" exists, it is loaded automatically.
+#' `zotero_credentials.rds` exists, it is loaded automatically.
 #'
-#' @param cache Logical, defaults to TRUE If TRUE, it stores the credentials in
-#'   the working diretory in a file called "zotero_credentials.rds", which
+#' @param cache Logical, defaults to `TRUE`. If `TRUE`, it stores the credentials in
+#'   the working diretory in a file called `zotero_credentials.rds`, which
 #'   should be considered confidential since it provides access to a given
 #'   Zotero account.
-#' @return A OAuth object including the Zotero API key.
+#' @return An OAuth object including the Zotero API key.
 #' @export
 #' @examples
 #' \dontrun{
@@ -22,8 +22,8 @@
 zot_auth <- function(cache = TRUE) {
   if (cache == TRUE) {
     file_location <- fs::path("zot_cache", "zotero_credentials.rds")
-    if (fs::file_exists(file_location) == TRUE) {
-      credentials <- readr::read_rds(path = file_location)
+    if (fs::file_exists(file_location)) {
+      credentials <- readr::read_rds(file = file_location)
     } else {
       credentials <-
         ROAuth::OAuthFactory$new(

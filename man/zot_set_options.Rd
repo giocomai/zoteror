@@ -17,7 +17,7 @@ an API secret key with write access created at
 Nothing. Used for its side effects (stores settings).
 }
 \description{
-It allows to preliminary store options frequently used by 'zoteroR', thus
+It allows to preliminary store options frequently used by 'zoteror', thus
 removing the requirement to specify them each time a function is called.
 }
 \examples{

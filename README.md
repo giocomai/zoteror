@@ -33,7 +33,7 @@ credentials <- zot_auth(cache = TRUE)
 
 The verification code that appears at the end of the URL after
 authorization in browser should be input as verification PIN. If the
-parameter store is enabled - AuthZot(cache=TRUE) - `zoteror` stores the
+parameter store is enabled - zot_auth(cache=TRUE) - `zoteror` stores the
 credentials in a local file called “zotero_credentials.rds”, which
 should be considered confidential since it provides access to a given
 Zotero account. If a pre-existing “zotero_credentials.rds” exists, it is

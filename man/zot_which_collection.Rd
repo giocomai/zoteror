@@ -9,7 +9,7 @@ zot_which_collection(id, user = NULL, credentials = NULL)
 \arguments{
 \item{user}{Zotero userId}
 
-\item{credentials}{Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
+\item{credentials}{Either an R object created with zot_auth(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys}
 }
 \value{
 A charachter vector including all categories in which given item is included.

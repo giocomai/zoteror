@@ -31,7 +31,7 @@ remotes::install_github(repo = "giocomai/zoteror")
 ```{r, echo=TRUE, eval=FALSE}
 credentials <- zot_auth(cache = TRUE)
 ```
-The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parameter store is enabled - AuthZot(cache=TRUE) - `zoteror` stores the credentials in a local file called "zotero_credentials.rds", which should be considered confidential since it provides access to a given Zotero account. If a pre-existing "zotero_credentials.rds" exists, it is loaded automatically.
+The verification code that appears at the end of the URL after authorization in browser should be input as verification PIN. If the parameter store is enabled - zot_auth(cache=TRUE) - `zoteror` stores the credentials in a local file called "zotero_credentials.rds", which should be considered confidential since it provides access to a given Zotero account. If a pre-existing "zotero_credentials.rds" exists, it is loaded automatically.
 
 N.B. At this stage, it may be easier to actually login on Zotero, go to the (Feeds/API page in Settings)[https://www.zotero.org/settings/keys], and create an API from there.
 

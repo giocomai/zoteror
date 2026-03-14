@@ -4,7 +4,7 @@ zot_options <- settings::options_manager(user = NULL, credentials = NULL)
 
 #' Sets 'zoteroR' options
 #'
-#' It allows to preliminary store options frequently used by 'zoteroR', thus
+#' It allows to preliminary store options frequently used by 'zoteror', thus
 #' removing the requirement to specify them each time a function is called.
 #' @param user A Zotero userId.
 #' @param credentials Either an R object created with AuthZot(store = TRUE), or

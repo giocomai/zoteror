@@ -5,7 +5,7 @@
 #'
 #' @param id Id code of a zotero item
 #' @param user Zotero userId
-#' @param credentials Either an R object created with AuthZot(store = TRUE), or
+#' @param credentials Either an R object created with zot_auth(store = TRUE), or
 #'   an API secret key with write access created at
 #'   https://www.zotero.org/settings/keys
 #' @return A list including all available details on a given item.
@@ -29,7 +29,8 @@ zot_read_item <- function(id, user = NULL, credentials = NULL) {
   jsonlite::fromJSON(
     txt = paste0(
       "https://api.zotero.org/users/",
-      user, "/items/",
+      user,
+      "/items/",
       id,
       "?key=",
       secret
@@ -44,7 +45,7 @@ zot_read_item <- function(id, user = NULL, credentials = NULL) {
 #'
 #' @param id Id code of a zotero item
 #' @param user Zotero userId
-#' @param credentials Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
+#' @param credentials Either an R object created with zot_auth(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
 #' @return A data.frame including details on all children of a given parent item.
 #' @export
 #' @examples
@@ -85,7 +86,7 @@ zot_read_children <- function(id, user = NULL, credentials = NULL) {
 #'
 #' @param id Id code of a zotero item
 #' @param user Zotero userId
-#' @param credentials Either an R object created with AuthZot(store = TRUE), or
+#' @param credentials Either an R object created with zot_auth(store = TRUE), or
 #'   an API secret key with write access created at
 #'   https://www.zotero.org/settings/keys
 #' @return A vector including the ID of all children
@@ -110,7 +111,7 @@ zot_read_children_id <- function(id, user = NULL, credentials = NULL) {
 #'
 #'
 #' @param user Zotero userId
-#' @param credentials Either an R object created with AuthZot(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
+#' @param credentials Either an R object created with zot_auth(store = TRUE), or an API secret key with write access created at https://www.zotero.org/settings/keys
 #' @return A charachter vector including all categories in which given item is included.
 #' @export
 #' @examples
@@ -176,17 +177,23 @@ zot_get_item_types <- function(cache = TRUE, locale = NULL) {
       return(readRDS(file_location))
     } else {
       if (is.null(locale)) {
-        item_types <- jsonlite::fromJSON(txt = "https://api.zotero.org/itemTypes")
+        item_types <- jsonlite::fromJSON(
+          txt = "https://api.zotero.org/itemTypes"
+        )
       } else {
-        item_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypes?locale=", locale))
+        item_types <- jsonlite::fromJSON(
+          txt = paste0("https://api.zotero.org/itemTypes?locale=", locale)
+        )
       }
-      readr::write_rds(x = item_types, path = file_location)
+      readr::write_rds(x = item_types, file = file_location)
     }
   } else {
     if (is.null(locale)) {
       item_types <- jsonlite::fromJSON(txt = "https://api.zotero.org/itemTypes")
     } else {
-      item_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypes?locale=", locale))
+      item_types <- jsonlite::fromJSON(
+        txt = paste0("https://api.zotero.org/itemTypes?locale=", locale)
+      )
     }
   }
   return(item_types)
@@ -207,31 +214,63 @@ zot_get_item_types <- function(cache = TRUE, locale = NULL) {
 #' \dontrun{
 #' creator_types <- zot_get_creator_types()
 #' }
-zot_get_creator_types <- function(item_type = "book",
-                                  cache = TRUE,
-                                  locale = NULL) {
-  if (cache == TRUE) {
+zot_get_creator_types <- function(
+  item_type = "book",
+  cache = TRUE,
+  locale = NULL
+) {
+  if (cache) {
     fs::dir_create(path = "zot_cache")
     if (is.null(locale) == TRUE) {
-      file_location <- fs::path("zot_cache", paste0(item_type, "_creator_types.rds"))
+      file_location <- fs::path(
+        "zot_cache",
+        paste0(item_type, "_creator_types.rds")
+      )
     } else {
-      file_location <- fs::path("zot_cache", paste0(item_type, "_creator_types", locale, ".rds"))
+      file_location <- fs::path(
+        "zot_cache",
+        paste0(item_type, "_creator_types", locale, ".rds")
+      )
     }
     if (fs::file_exists(file_location)) {
-      return(readr::read_rds(path = file_location))
+      return(readr::read_rds(file = file_location))
     } else {
       if (is.null(locale)) {
-        creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type))
+        creator_types <- jsonlite::fromJSON(
+          txt = paste0(
+            "https://api.zotero.org/itemTypeCreatorTypes?itemType=",
+            item_type
+          )
+        )
       } else {
-        creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type, "&locale=", locale))
+        creator_types <- jsonlite::fromJSON(
+          txt = paste0(
+            "https://api.zotero.org/itemTypeCreatorTypes?itemType=",
+            item_type,
+            "&locale=",
+            locale
+          )
+        )
       }
-      readr::write_rds(x = creator_types, path = file_location)
+      readr::write_rds(x = creator_types, file = file_location)
     }
   } else {
     if (is.null(locale)) {
-      creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type))
+      creator_types <- jsonlite::fromJSON(
+        txt = paste0(
+          "https://api.zotero.org/itemTypeCreatorTypes?itemType=",
+          item_type
+        )
+      )
     } else {
-      creator_types <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeCreatorTypes?itemType=", item_type, "&locale=", locale))
+      creator_types <- jsonlite::fromJSON(
+        txt = paste0(
+          "https://api.zotero.org/itemTypeCreatorTypes?itemType=",
+          item_type,
+          "&locale=",
+          locale
+        )
+      )
     }
   }
   return(creator_types)
@@ -257,20 +296,25 @@ zot_get_creator_types <- function(item_type = "book",
 zot_get_item_template <- function(item_type = "book", cache = TRUE) {
   if (cache == TRUE) {
     dir.create(path = "zot_cache", showWarnings = FALSE)
-    template_location <- file.path("zot_cache", paste0(paste("item", item_type, "template", sep = "_"), ".rds"))
+    template_location <- file.path(
+      "zot_cache",
+      paste0(paste("item", item_type, "template", sep = "_"), ".rds")
+    )
     if (file.exists(template_location)) {
       return(readRDS(template_location))
     } else {
-      item_template <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/items/new?itemType=", item_type))
+      item_template <- jsonlite::fromJSON(
+        txt = paste0("https://api.zotero.org/items/new?itemType=", item_type)
+      )
       saveRDS(object = item_template, file = template_location)
       return(item_template)
     }
   } else {
-    jsonlite::fromJSON(txt = paste0("https://api.zotero.org/items/new?itemType=", item_type))
+    jsonlite::fromJSON(
+      txt = paste0("https://api.zotero.org/items/new?itemType=", item_type)
+    )
   }
 }
-
-
 
 
 #' Find and show all valid fields for a given item type
@@ -291,31 +335,63 @@ zot_get_item_template <- function(item_type = "book", cache = TRUE) {
 #' \dontrun{
 #' zot_get_item_types_fields()
 #' }
-zot_get_item_types_fields <- function(item_type = "book",
-                                      cache = TRUE,
-                                      locale = NULL) {
+zot_get_item_types_fields <- function(
+  item_type = "book",
+  cache = TRUE,
+  locale = NULL
+) {
   if (cache == TRUE) {
     fs::dir_create(path = "zot_cache")
     if (is.null(locale) == TRUE) {
-      file_location <- fs::path("zot_cache", paste0(item_type, "_item_types_fields.rds"))
+      file_location <- fs::path(
+        "zot_cache",
+        paste0(item_type, "_item_types_fields.rds")
+      )
     } else {
-      file_location <- fs::path("zot_cache", paste0(item_type, "_item_types_fields", locale, ".rds"))
+      file_location <- fs::path(
+        "zot_cache",
+        paste0(item_type, "_item_types_fields", locale, ".rds")
+      )
     }
     if (fs::file_exists(file_location)) {
-      return(readr::read_rds(file_location))
+      return(readr::read_rds(file = file_location))
     } else {
       if (is.null(locale)) {
-        item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type))
+        item_types_fields <- jsonlite::fromJSON(
+          txt = paste0(
+            "https://api.zotero.org/itemTypeFields?itemType=",
+            item_type
+          )
+        )
       } else {
-        item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type, "&locale=", locale))
+        item_types_fields <- jsonlite::fromJSON(
+          txt = paste0(
+            "https://api.zotero.org/itemTypeFields?itemType=",
+            item_type,
+            "&locale=",
+            locale
+          )
+        )
       }
-      readr::write_rds(x = item_types_fields, path = file_location)
+      readr::write_rds(x = item_types_fields, file = file_location)
     }
   } else {
     if (is.null(locale)) {
-      item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type))
+      item_types_fields <- jsonlite::fromJSON(
+        txt = paste0(
+          "https://api.zotero.org/itemTypeFields?itemType=",
+          item_type
+        )
+      )
     } else {
-      item_types_fields <- jsonlite::fromJSON(txt = paste0("https://api.zotero.org/itemTypeFields?itemType=", item_type, "&locale=", locale))
+      item_types_fields <- jsonlite::fromJSON(
+        txt = paste0(
+          "https://api.zotero.org/itemTypeFields?itemType=",
+          item_type,
+          "&locale=",
+          locale
+        )
+      )
     }
   }
   return(item_types_fields)
